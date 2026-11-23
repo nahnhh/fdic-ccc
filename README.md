@@ -155,3 +155,34 @@ A cluster becomes reasonable when projected data/intermediate working sets
 exceed available machine memory, or when distributed input/output, throughput,
 and fault-tolerance requirements outweigh startup, shuffle, and data-transfer
 costs.
+
+## Part 4
+
+The CAMELS feature matrix contains 15 point-in-time features across capital,
+asset quality, earnings, liquidity, sensitivity, management, and four-quarter
+dynamics. Net charge-offs use `NTLNLS` (not `NCLNLS`, which is noncurrent loans
+and leases). Invalid or nonpositive ratio denominators produce missing values,
+not inflated ratios. Dynamic changes require an exact four-quarter comparison.
+The management proxy is noninterest expense to assets (`NONIX / ASSET`), an
+operating-cost burden measure rather than a complete management-quality rating.
+Labels remain based on the Part 2 12-month future-failure window.
+
+The temporal model split uses observations through 2006Q4 for training, excludes
+2007, and evaluates on observations from 2008Q1 onward. The primary specification
+uses Call Report values from exactly the prior quarter; a same-quarter model is
+reported as a sensitivity check. The model pipeline fits 0.5th/99.5th percentile
+outlier bounds, median imputation, and standardization on development data only.
+Their fitted bounds, medians, means, and scales are included in the Part 4 JSON
+report. Expected coefficient directions are economic hypotheses, not constraints;
+the report shows both fitted signs and development-period marginal diagnostics.
+The downloaded FDIC files are a latest-vintage snapshot without filing vintage
+or publication timestamps, so historical revisions cannot be controlled or
+ruled out; this limitation is recorded in the report.
+
+Run:
+
+```powershell
+uv sync
+python src/part4_features.py
+python tests/test_part4.py
+```

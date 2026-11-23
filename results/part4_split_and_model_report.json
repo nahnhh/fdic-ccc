@@ -1,0 +1,374 @@
+{
+  "features": {
+    "train": {
+      "start": "1984-03-31",
+      "end": "2006-12-31",
+      "rows": 1190229,
+      "failures": 10104
+    },
+    "test": {
+      "start": "2008-03-31",
+      "end": "2025-06-30",
+      "rows": 434664,
+      "failures": 2177
+    },
+    "gap_quarters": 4,
+    "label_window": "Failure 0-12 months after the reporting quarter",
+    "feature_horizon": "Lagged model uses only the exact prior quarter; delta4 requires an exact four-quarter comparison",
+    "revision_control": "The FDIC download is a latest-vintage snapshot; historical filing vintages and publication timestamps are not present, so revision leakage cannot be ruled out.",
+    "filing_lag_check": "The primary specification uses values from exactly REPDTE-1 quarter; same-quarter values are reported as a sensitivity comparison.",
+    "lagged_feature_coverage": {
+      "train_rows_with_exact_prior_quarter": 1166604,
+      "test_rows_with_exact_prior_quarter": 434415
+    }
+  },
+  "models": {
+    "same_quarter_sensitivity": {
+      "test_rows": 434664,
+      "test_failures": 2177,
+      "roc_auc": 0.9806745615042869,
+      "average_precision": 0.5931118914268008,
+      "brier_score": 0.01885221822247455,
+      "log_loss": 0.07971194241151393,
+      "confusion_matrix": {
+        "tn": 422805,
+        "fp": 9682,
+        "fn": 199,
+        "tp": 1978
+      },
+      "coefficients": {
+        "equity_to_assets": -2.6368126572309865,
+        "tier1_leverage": -1.8017912521040411,
+        "npa_ratio": 0.4510641781759949,
+        "net_chargeoff_rate": -0.04103635691022757,
+        "reserve_coverage": -0.3088138341459348,
+        "roa": -0.426231474971588,
+        "provision_to_assets": 0.05253678115300783,
+        "liquid_asset_ratio": -1.0146917392320094,
+        "brokered_dep_ratio": 0.2446412421505392,
+        "core_deposit_ratio": 0.20173736146639024,
+        "loan_to_assets": -0.7923512652913267,
+        "re_concentration": -0.45049917584309235,
+        "delta4_npa_ratio": 0.14176344566086943,
+        "delta4_equity_ratio": -0.21008077451421717,
+        "management_expense_ratio": 0.012898303620703624
+      },
+      "training_preprocessing_fit": {
+        "training_rows": 1190229,
+        "training_failures": 10104,
+        "fit_scope": "training observations only",
+        "winsor_quantiles": [
+          0.005,
+          0.995
+        ],
+        "features": {
+          "equity_to_assets": {
+            "lower_clip": -0.04845277187467832,
+            "upper_clip": 0.8496967761025422,
+            "imputation_median": 0.08691587036665992,
+            "standardization_mean": 0.10075542313401283,
+            "standardization_scale": 0.08205788812318975
+          },
+          "tier1_leverage": {
+            "lower_clip": 0.0,
+            "upper_clip": 89.31825383703232,
+            "imputation_median": 8.545909123849555,
+            "standardization_mean": 9.770061398043804,
+            "standardization_scale": 8.834932507042813
+          },
+          "npa_ratio": {
+            "lower_clip": 0.0,
+            "upper_clip": 0.14375339619954733,
+            "imputation_median": 0.00718596245342272,
+            "standardization_mean": 0.013448017100485573,
+            "standardization_scale": 0.019607679517112245
+          },
+          "net_chargeoff_rate": {
+            "lower_clip": -0.007296454415637509,
+            "upper_clip": 0.06299487406027976,
+            "imputation_median": 0.0005256169306363137,
+            "standardization_mean": 0.0028071417195442657,
+            "standardization_scale": 0.007590162651281868
+          },
+          "reserve_coverage": {
+            "lower_clip": 0.09890383465906478,
+            "upper_clip": 266.0,
+            "imputation_median": 1.7876106194690264,
+            "standardization_mean": 6.498816457228084,
+            "standardization_scale": 23.07774415112156
+          },
+          "roa": {
+            "lower_clip": -9.1523663541124,
+            "upper_clip": 6.195786864931847,
+            "imputation_median": 1.0131493856434577,
+            "standardization_mean": 0.8300995453401674,
+            "standardization_scale": 1.4250203348816315
+          },
+          "provision_to_assets": {
+            "lower_clip": -0.0025597379723821673,
+            "upper_clip": 0.0433390438672068,
+            "imputation_median": 0.0007517666516313336,
+            "standardization_mean": 0.0021897085934785205,
+            "standardization_scale": 0.005022569720639168
+          },
+          "liquid_asset_ratio": {
+            "lower_clip": 0.021563403684500132,
+            "upper_clip": 0.8479376274747191,
+            "imputation_median": 0.3160667404806694,
+            "standardization_mean": 0.33303533566351157,
+            "standardization_scale": 0.16208043692063323
+          },
+          "brokered_dep_ratio": {
+            "lower_clip": 0.0,
+            "upper_clip": 0.35953642917217654,
+            "imputation_median": 0.0,
+            "standardization_mean": 0.008361051876850838,
+            "standardization_scale": 0.03865304866068148
+          },
+          "core_deposit_ratio": {
+            "lower_clip": 0.8766732241631985,
+            "upper_clip": 1.0,
+            "imputation_median": 1.0,
+            "standardization_mean": 0.999087641446456,
+            "standardization_scale": 0.009767540370763871
+          },
+          "loan_to_assets": {
+            "lower_clip": 0.0,
+            "upper_clip": 0.9180447205721223,
+            "imputation_median": 0.5886415624739166,
+            "standardization_mean": 0.5706400894104634,
+            "standardization_scale": 0.1719772706500755
+          },
+          "re_concentration": {
+            "lower_clip": 0.0,
+            "upper_clip": 1.0761418208668225,
+            "imputation_median": 0.5699588911141562,
+            "standardization_mean": 0.5786010471393188,
+            "standardization_scale": 0.2537444627241306
+          },
+          "delta4_npa_ratio": {
+            "lower_clip": -0.04494700263363953,
+            "upper_clip": 0.06386452342503827,
+            "imputation_median": -9.752228521546155e-05,
+            "standardization_mean": 0.00011372398376054348,
+            "standardization_scale": 0.010508927499518496
+          },
+          "delta4_equity_ratio": {
+            "lower_clip": -0.21902847790337676,
+            "upper_clip": 0.08091341856721908,
+            "imputation_median": 0.0008164189151966886,
+            "standardization_mean": -0.001957571649450411,
+            "standardization_scale": 0.024187730527434968
+          },
+          "management_expense_ratio": {
+            "lower_clip": 0.0029734124854647556,
+            "upper_clip": 0.26030615656631795,
+            "imputation_median": 0.017392696749708947,
+            "standardization_mean": 0.021332035314422647,
+            "standardization_scale": 0.023105735031197346
+          }
+        }
+      }
+    },
+    "one_quarter_lag_primary": {
+      "test_rows": 434664,
+      "test_failures": 2177,
+      "roc_auc": 0.9760434877574505,
+      "average_precision": 0.4582655321752228,
+      "brier_score": 0.025895924216802868,
+      "log_loss": 0.11032011599978642,
+      "confusion_matrix": {
+        "tn": 419602,
+        "fp": 12885,
+        "fn": 249,
+        "tp": 1928
+      },
+      "coefficients": {
+        "equity_to_assets_lag1q": -2.2996358797860226,
+        "tier1_leverage_lag1q": -1.5429665471846057,
+        "npa_ratio_lag1q": 0.41600148139247095,
+        "net_chargeoff_rate_lag1q": -0.07739907522684285,
+        "reserve_coverage_lag1q": -0.28052865030489277,
+        "roa_lag1q": -0.465827621357755,
+        "provision_to_assets_lag1q": 0.0861927339119366,
+        "liquid_asset_ratio_lag1q": -1.02955986161028,
+        "brokered_dep_ratio_lag1q": 0.2183232922216559,
+        "core_deposit_ratio_lag1q": 0.20619338456134712,
+        "loan_to_assets_lag1q": -0.7685318173446101,
+        "re_concentration_lag1q": -0.3773990049985975,
+        "delta4_npa_ratio_lag1q": 0.14524023540112832,
+        "delta4_equity_ratio_lag1q": -0.21697441028929867,
+        "management_expense_ratio_lag1q": -0.00097223026624866
+      },
+      "training_preprocessing_fit": {
+        "training_rows": 1190229,
+        "training_failures": 10104,
+        "fit_scope": "training observations only",
+        "winsor_quantiles": [
+          0.005,
+          0.995
+        ],
+        "features": {
+          "equity_to_assets_lag1q": {
+            "lower_clip": -0.03410472978987399,
+            "upper_clip": 0.8430221906439062,
+            "imputation_median": 0.0869220607661823,
+            "standardization_mean": 0.10051692034071286,
+            "standardization_scale": 0.07994296862805618
+          },
+          "tier1_leverage_lag1q": {
+            "lower_clip": 0.0,
+            "upper_clip": 88.9344818715984,
+            "imputation_median": 8.549720649850574,
+            "standardization_mean": 9.741455413361006,
+            "standardization_scale": 8.667471632586428
+          },
+          "npa_ratio_lag1q": {
+            "lower_clip": 0.0,
+            "upper_clip": 0.13550831706018354,
+            "imputation_median": 0.007205078072932545,
+            "standardization_mean": 0.013171184217547751,
+            "standardization_scale": 0.018760073025542303
+          },
+          "net_chargeoff_rate_lag1q": {
+            "lower_clip": -0.00728384246226056,
+            "upper_clip": 0.060596999665018414,
+            "imputation_median": 0.0005212599597885174,
+            "standardization_mean": 0.002712859400107298,
+            "standardization_scale": 0.007311847149640634
+          },
+          "reserve_coverage_lag1q": {
+            "lower_clip": 0.10113671778889528,
+            "upper_clip": 264.68799999998885,
+            "imputation_median": 1.7869955156950672,
+            "standardization_mean": 6.384670967812597,
+            "standardization_scale": 22.739643547900325
+          },
+          "roa_lag1q": {
+            "lower_clip": -8.390982567920302,
+            "upper_clip": 6.079634736398088,
+            "imputation_median": 1.0160695113751526,
+            "standardization_mean": 0.8529437040855147,
+            "standardization_scale": 1.341288643596257
+          },
+          "provision_to_assets_lag1q": {
+            "lower_clip": -0.002502337118811925,
+            "upper_clip": 0.040819283211817964,
+            "imputation_median": 0.000749063670411985,
+            "standardization_mean": 0.0021121406386875765,
+            "standardization_scale": 0.004752102808303936
+          },
+          "liquid_asset_ratio_lag1q": {
+            "lower_clip": 0.022126209060819534,
+            "upper_clip": 0.8464751261525452,
+            "imputation_median": 0.3174060178032811,
+            "standardization_mean": 0.33392334196157697,
+            "standardization_scale": 0.1601674933226716
+          },
+          "brokered_dep_ratio_lag1q": {
+            "lower_clip": 0.0,
+            "upper_clip": 0.34948576626067385,
+            "imputation_median": 0.0,
+            "standardization_mean": 0.007862740874010425,
+            "standardization_scale": 0.03708359925739955
+          },
+          "core_deposit_ratio_lag1q": {
+            "lower_clip": 0.8752761147287011,
+            "upper_clip": 1.0,
+            "imputation_median": 1.0,
+            "standardization_mean": 0.9990953485272964,
+            "standardization_scale": 0.009779367313782537
+          },
+          "loan_to_assets_lag1q": {
+            "lower_clip": 0.0,
+            "upper_clip": 0.9177544307884974,
+            "imputation_median": 0.5879457802162337,
+            "standardization_mean": 0.5704746612033719,
+            "standardization_scale": 0.1698853664617561
+          },
+          "re_concentration_lag1q": {
+            "lower_clip": 0.0,
+            "upper_clip": 1.0764227498892274,
+            "imputation_median": 0.5679861205218628,
+            "standardization_mean": 0.5770316687683668,
+            "standardization_scale": 0.2513233217038754
+          },
+          "delta4_npa_ratio_lag1q": {
+            "lower_clip": -0.0447823702731773,
+            "upper_clip": 0.06093952880234067,
+            "imputation_median": -0.0001049568746801906,
+            "standardization_mean": 5.294590698025758e-05,
+            "standardization_scale": 0.01021566848338651
+          },
+          "delta4_equity_ratio_lag1q": {
+            "lower_clip": -0.21068879001899435,
+            "upper_clip": 0.07688861003921414,
+            "imputation_median": 0.0008226671373986125,
+            "standardization_mean": -0.0017731008628943425,
+            "standardization_scale": 0.02304302530053266
+          },
+          "management_expense_ratio_lag1q": {
+            "lower_clip": 0.002980068510548459,
+            "upper_clip": 0.2527449932744518,
+            "imputation_median": 0.017267240483437415,
+            "standardization_mean": 0.021049864341859268,
+            "standardization_scale": 0.022264004416783133
+          }
+        }
+      }
+    }
+  },
+  "coefficient_prior_sign_check": {
+    "net_chargeoff_rate": {
+      "expected_direction": "positive",
+      "observed_direction": "negative",
+      "coefficient": -0.07739907522684285,
+      "matches_expectation": false
+    },
+    "core_deposit_ratio": {
+      "expected_direction": "negative",
+      "observed_direction": "positive",
+      "coefficient": 0.20619338456134712,
+      "matches_expectation": false
+    },
+    "loan_to_assets": {
+      "expected_direction": "positive",
+      "observed_direction": "negative",
+      "coefficient": -0.7685318173446101,
+      "matches_expectation": false
+    },
+    "re_concentration": {
+      "expected_direction": "positive",
+      "observed_direction": "negative",
+      "coefficient": -0.3773990049985975,
+      "matches_expectation": false
+    }
+  },
+  "development_marginal_direction_diagnostics": {
+    "net_chargeoff_rate": {
+      "observations": 1080531,
+      "median_nonfailure": 0.0005132501953634608,
+      "median_failure": 0.011433819308919757,
+      "univariate_auc_in_expected_direction": 0.7926807647509946
+    },
+    "core_deposit_ratio": {
+      "observations": 1159584,
+      "median_nonfailure": 1.0,
+      "median_failure": 1.0,
+      "univariate_auc_in_expected_direction": 0.4976454816812096
+    },
+    "loan_to_assets": {
+      "observations": 1166603,
+      "median_nonfailure": 0.5874551324719597,
+      "median_failure": 0.6436817577236269,
+      "univariate_auc_in_expected_direction": 0.593531220142071
+    },
+    "re_concentration": {
+      "observations": 1156152,
+      "median_nonfailure": 0.5676116214013525,
+      "median_failure": 0.6715083798882682,
+      "univariate_auc_in_expected_direction": 0.5683096414575299
+    }
+  },
+  "coefficient_interpretation": "Expected directions are economic hypotheses, not constraints. Logistic coefficients are conditional on all included features; correlated CAMELS ratios can therefore have signs that differ from their marginal risk association."
+}
