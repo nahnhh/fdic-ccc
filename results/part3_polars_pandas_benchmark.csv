@@ -1,0 +1,4 @@
+fraction,input_rows,polars_median_s,pandas_median_s,speedup_x,polars_rows,pandas_rows,output_match
+0.25,414901,0.1962,0.4354,2.22,18,18,true
+0.5,829803,0.3172,0.9037,2.85,42,42,true
+1.0,1659606,0.9417,1.8996,2.02,126,126,true

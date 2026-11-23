@@ -1,0 +1,5 @@
+replication_factor,input_rows,status,estimated_pandas_peak_mb,available_memory_mb,polars_input_size_mb,pandas_input_size_mb,polars_median_s,polars_spread_s,polars_median_baseline_rss_mb,polars_median_peak_rss_mb,polars_median_peak_rss_increase_mb,pandas_median_s,pandas_spread_s,pandas_median_baseline_rss_mb,pandas_median_peak_rss_mb,pandas_median_peak_rss_increase_mb,runs,speedup_x,output_match
+1,1659606,complete,104.5,1411.9,50.0,52.2,0.133485,0.006224,835.207,835.43,0.223,1.040595,0.022242,836.734,947.574,110.84,3,7.796,true
+2,3319212,complete,208.9,1411.9,100.0,104.5,0.244351,0.020812,1048.785,1050.535,1.773,2.145575,0.059068,940.949,1166.719,225.77,3,8.781,true
+4,6638424,complete,417.8,1411.9,200.0,208.9,0.46721,0.056101,1181.055,1182.594,1.539,4.352239,0.086,1170.145,1620.66,450.516,3,9.315,true
+8,13276848,complete,835.7,1411.9,400.0,417.8,0.959202,0.040642,1646.188,1647.758,2.742,8.638813,0.066263,1647.891,2547.887,900.008,3,9.006,true

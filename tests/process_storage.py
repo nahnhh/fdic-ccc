@@ -14,16 +14,23 @@ RATIOS = ["ROA", "ROE", "NIMY", "RBC1AAJ", "RBCRWAJ"]                  # percent
 
 
 def main() -> None:
-    raw = pl.scan_parquet(RAW / "financials" / "*.parquet")
-    typed = (raw.with_columns(
-                pl.col("CERT").cast(pl.UInt32),
-                pl.col("REPDTE").cast(pl.Utf8).str.to_date("%Y%m%d"),
+    frames = []
+    for quarter_file in sorted((RAW / "financials").glob("*.parquet")):
+        frames.append(
+            pl.read_parquet(quarter_file).with_columns(
+                pl.col("CERT").cast(pl.UInt32, strict=False),
+                pl.col("REPDTE").cast(pl.Utf8, strict=False).str.to_date("%Y%m%d", strict=False),
+                pl.col("STNAME").cast(pl.String, strict=False),
+                *[pl.col(c).cast(pl.Int64, strict=False) for c in AMOUNTS if c in pl.read_parquet_schema(quarter_file)],
+                *[pl.col(c).cast(pl.Float32, strict=False) for c in RATIOS if c in pl.read_parquet_schema(quarter_file)],
+            )
+        )
+    src = pl.concat(frames, how="diagonal_relaxed")
+    typed = (src.with_columns(
                 pl.col("STNAME").cast(pl.Categorical),
-                *[pl.col(c).cast(pl.Int64) for c in AMOUNTS],
-                *[pl.col(c).cast(pl.Float32) for c in RATIOS])
-             .with_columns(pl.col("REPDTE").dt.year().cast(pl.Int16).alias("YEAR"))
+                pl.col("REPDTE").dt.year().cast(pl.Int16).alias("YEAR"))
              .sort(["REPDTE", "CERT"]))
-    df, src = typed.collect(), raw.collect()
+    df = typed
 
     # ---- losslessness + completeness checks (raise on failure) ----
     manifest = json.loads((RAW / "manifest_financials.json").read_text())
@@ -40,7 +47,7 @@ def main() -> None:
         df.to_arrow(), OUT / "financials", format="parquet",
         partitioning=ds.partitioning(pa.schema([("YEAR", pa.int16())]), flavor="hive"),
         file_options=ds.ParquetFileFormat().make_write_options(compression="zstd", compression_level=3),
-        existing_data_behavior="overwrite_or_ignore")
+        existing_data_behavior="delete_matching")
     print(f"OK: {df.height:,} rows, {df['YEAR'].n_unique()} year partitions")
 
 

@@ -1,0 +1,15 @@
+CAMELS	Feature	Definition	Expected failure signal
+Capital	equity_to_assets	EQ / ASSET	Sharp drop
+Capital	tier1_leverage	RBC1AAJ	Below the 4% regulatory minimum
+Asset quality	npa_ratio	(NAASSET + P9ASSET + ORE) / ASSET	High level or rapid rise
+Asset quality	net_chargeoff_rate	NCLNLS / LNLSGR	High realised credit losses
+Asset quality	reserve_coverage	LNATRES / (NAASSET + 10⁻⁵)	Low cover of bad assets
+Earnings	roa	ROA	Negative: capital is being lost
+Earnings	provision_to_assets	ELNATR / ASSET	Sudden spike: imminent distress
+Liquidity	liquid_asset_ratio	(CHBAL + SC) / ASSET	Low buffer: run vulnerability
+Liquidity	brokered_dep_ratio	BRO / (DEP + 10⁻⁵)	High: wholesale funding
+Liquidity	core_deposit_ratio	DEPDOM / (DEP + 10⁻⁵)	Falling: core deposit flight
+Sensitivity	loan_to_assets	LNLSNET / ASSET	Excessive lending growth
+Sensitivity	re_concentration	LNRE / (LNLSGR + 10⁻⁵)	Exposure to a real-estate downturn
+Dynamics	delta4_npa_ratio	npa_ratio(q) − npa_ratio(q−4)	Positive: rapid credit decay
+Dynamics	delta4_equity_ratio	equity_to_assets(q) − equity_to_assets(q−4)	Negative: capital erosion

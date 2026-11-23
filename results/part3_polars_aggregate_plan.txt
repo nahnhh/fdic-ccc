@@ -1,0 +1,32 @@
+POLARS AGGREGATE JOB — OPTIMIZED LAZY PLAN
+Input: D:\fdic-ccc\data\processed\part2\bank_quarter_panel.parquet
+Output: counts, failure-label sum, and mean ASSET by YEAR and EXIT_TYPE
+
+PUSHDOWN ANNOTATIONS
+1. Predicate/filter pushdown at the Parquet scan:
+   ASSET > 0 AND REPDTE <= 2025-06-30
+   The optimized plan places this predicate in the scan SELECTION.
+2. Projection/column pushdown:
+   Read only ASSET, REPDTE, FAIL_DT, EXIT_TYPE (4 of 21 source columns).
+   YEAR and target are derived after reading; all other source columns are pruned.
+3. No bank-quarter deduplication:
+   Part 2 found zero duplicate (CERT, REPDTE) keys, so this aggregate
+   does not pay for a sort/hash shuffle just to remove duplicates.
+
+OPTIMIZED PLAN (Polars explain(optimized=True))
+------------------------------------------------------
+SORT BY [col("YEAR"), col("EXIT_TYPE")]
+  AGGREGATE[maintain_order: false]
+    [len().alias("rows"), col("target").sum().alias("failures"), col("ASSET").mean().alias("mean_asset")] BY [col("YEAR"), col("EXIT_TYPE")]
+    FROM
+    simple π 4/4 ["YEAR", "EXIT_TYPE", "target", ... 1 other column]
+       WITH_COLUMNS:
+       [col("REPDTE").dt.year().alias("YEAR"), when((col("FAIL_DT").is_not_null() & (col("FAIL_DT") > col("REPDTE"))) & (col("FAIL_DT") <= col("REPDTE").dt.offset_by(["12mo"]))).then(dyn int: 1).otherwise(dyn int: 0).cast(UInt8).alias("target")] 
+        Parquet SCAN [D:/fdic-ccc/data/processed/part2/bank_quarter_panel.parquet]
+        PROJECT 4/21 COLUMNS
+        SELECTION: (col("ASSET") > 0.0) & (col("REPDTE") <= 2025-06-30)
+        ESTIMATED ROWS: 1659606
+
+Execution note: explain() shows the optimized logical plan. The lazy
+query executes when collect() is called; collection and the benchmark
+are measured separately from this plan printout.

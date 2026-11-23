@@ -1,0 +1,2727 @@
+{
+  "available": true,
+  "success": true,
+  "engine": "PySpark local[2]",
+  "startup_elapsed_s": 36.079626,
+  "deduplicate_used": false,
+  "zero_duplicate_keys_verified_in_part2": true,
+  "reason_deduplicate_not_used": "Part 2 verified zero duplicate (CERT, REPDTE) keys",
+  "filter_applied_before_cache": true,
+  "scales": [
+    {
+      "factor": 1,
+      "status": "complete",
+      "input_rows": 1659606,
+      "estimated_cache_mb": 63.3,
+      "available_memory_mb": 2263.4,
+      "setup_and_cache_s": 7.339274,
+      "warmup_aggregate_s": 5.28221,
+      "median_collect_s": 0.254012,
+      "warm_total_after_startup_s": 12.875496,
+      "min_collect_s": 0.238268,
+      "max_collect_s": 0.342906,
+      "spread_s": 0.104637,
+      "runs": 3,
+      "failure_labels": 12330,
+      "aggregate": [
+        {
+          "YEAR": 1984,
+          "EXIT_TYPE": "failure",
+          "rows": 10157,
+          "failures": 557,
+          "mean_asset": 333508.05385448
+        },
+        {
+          "YEAR": 1984,
+          "EXIT_TYPE": "open",
+          "rows": 13433,
+          "failures": 0,
+          "mean_asset": 123404.40340951
+        },
+        {
+          "YEAR": 1984,
+          "EXIT_TYPE": "other_exit",
+          "rows": 48037,
+          "failures": 0,
+          "mean_asset": 181425.73045777
+        },
+        {
+          "YEAR": 1985,
+          "EXIT_TYPE": "failure",
+          "rows": 10072,
+          "failures": 768,
+          "mean_asset": 362939.6049444
+        },
+        {
+          "YEAR": 1985,
+          "EXIT_TYPE": "open",
+          "rows": 13664,
+          "failures": 0,
+          "mean_asset": 132589.68076698
+        },
+        {
+          "YEAR": 1985,
+          "EXIT_TYPE": "other_exit",
+          "rows": 48147,
+          "failures": 0,
+          "mean_asset": 196433.051592
+        },
+        {
+          "YEAR": 1986,
+          "EXIT_TYPE": "failure",
+          "rows": 9622,
+          "failures": 936,
+          "mean_asset": 402198.44231968
+        },
+        {
+          "YEAR": 1986,
+          "EXIT_TYPE": "open",
+          "rows": 13978,
+          "failures": 0,
+          "mean_asset": 146716.87165546
+        },
+        {
+          "YEAR": 1986,
+          "EXIT_TYPE": "other_exit",
+          "rows": 48342,
+          "failures": 0,
+          "mean_asset": 213417.48094824
+        },
+        {
+          "YEAR": 1987,
+          "EXIT_TYPE": "failure",
+          "rows": 8864,
+          "failures": 1414,
+          "mean_asset": 452790.94189982
+        },
+        {
+          "YEAR": 1987,
+          "EXIT_TYPE": "open",
+          "rows": 14104,
+          "failures": 0,
+          "mean_asset": 156856.24269711
+        },
+        {
+          "YEAR": 1987,
+          "EXIT_TYPE": "other_exit",
+          "rows": 47198,
+          "failures": 0,
+          "mean_asset": 231277.58510954
+        },
+        {
+          "YEAR": 1988,
+          "EXIT_TYPE": "failure",
+          "rows": 7620,
+          "failures": 2307,
+          "mean_asset": 522083.20131234
+        },
+        {
+          "YEAR": 1988,
+          "EXIT_TYPE": "open",
+          "rows": 14212,
+          "failures": 0,
+          "mean_asset": 163819.62686462
+        },
+        {
+          "YEAR": 1988,
+          "EXIT_TYPE": "other_exit",
+          "rows": 45495,
+          "failures": 0,
+          "mean_asset": 259519.00742939
+        },
+        {
+          "YEAR": 1989,
+          "EXIT_TYPE": "failure",
+          "rows": 5386,
+          "failures": 1562,
+          "mean_asset": 607031.69439287
+        },
+        {
+          "YEAR": 1989,
+          "EXIT_TYPE": "open",
+          "rows": 14314,
+          "failures": 0,
+          "mean_asset": 173197.22271902
+        },
+        {
+          "YEAR": 1989,
+          "EXIT_TYPE": "other_exit",
+          "rows": 44620,
+          "failures": 0,
+          "mean_asset": 286411.82864186
+        },
+        {
+          "YEAR": 1990,
+          "EXIT_TYPE": "failure",
+          "rows": 3828,
+          "failures": 1156,
+          "mean_asset": 674332.8061651
+        },
+        {
+          "YEAR": 1990,
+          "EXIT_TYPE": "open",
+          "rows": 14388,
+          "failures": 0,
+          "mean_asset": 188446.41958577
+        },
+        {
+          "YEAR": 1990,
+          "EXIT_TYPE": "other_exit",
+          "rows": 43961,
+          "failures": 0,
+          "mean_asset": 303025.94799936
+        },
+        {
+          "YEAR": 1991,
+          "EXIT_TYPE": "failure",
+          "rows": 2662,
+          "failures": 764,
+          "mean_asset": 726412.45492111
+        },
+        {
+          "YEAR": 1991,
+          "EXIT_TYPE": "open",
+          "rows": 14468,
+          "failures": 0,
+          "mean_asset": 194808.64120818
+        },
+        {
+          "YEAR": 1991,
+          "EXIT_TYPE": "other_exit",
+          "rows": 42490,
+          "failures": 0,
+          "mean_asset": 312991.0203342
+        },
+        {
+          "YEAR": 1992,
+          "EXIT_TYPE": "failure",
+          "rows": 1892,
+          "failures": 319,
+          "mean_asset": 896705.397463
+        },
+        {
+          "YEAR": 1992,
+          "EXIT_TYPE": "open",
+          "rows": 14521,
+          "failures": 0,
+          "mean_asset": 220126.48522829
+        },
+        {
+          "YEAR": 1992,
+          "EXIT_TYPE": "other_exit",
+          "rows": 40329,
+          "failures": 0,
+          "mean_asset": 322801.36591535
+        },
+        {
+          "YEAR": 1993,
+          "EXIT_TYPE": "failure",
+          "rows": 1568,
+          "failures": 85,
+          "mean_asset": 1022026.51658163
+        },
+        {
+          "YEAR": 1993,
+          "EXIT_TYPE": "open",
+          "rows": 14562,
+          "failures": 0,
+          "mean_asset": 236788.93730257
+        },
+        {
+          "YEAR": 1993,
+          "EXIT_TYPE": "other_exit",
+          "rows": 38178,
+          "failures": 0,
+          "mean_asset": 342261.02561685
+        },
+        {
+          "YEAR": 1994,
+          "EXIT_TYPE": "failure",
+          "rows": 1492,
+          "failures": 46,
+          "mean_asset": 1216537.96581769
+        },
+        {
+          "YEAR": 1994,
+          "EXIT_TYPE": "open",
+          "rows": 14597,
+          "failures": 0,
+          "mean_asset": 259823.76426663
+        },
+        {
+          "YEAR": 1994,
+          "EXIT_TYPE": "other_exit",
+          "rows": 35634,
+          "failures": 0,
+          "mean_asset": 383435.79800191
+        },
+        {
+          "YEAR": 1995,
+          "EXIT_TYPE": "failure",
+          "rows": 1470,
+          "failures": 22,
+          "mean_asset": 1340139.04421769
+        },
+        {
+          "YEAR": 1995,
+          "EXIT_TYPE": "open",
+          "rows": 14654,
+          "failures": 0,
+          "mean_asset": 282150.73201856
+        },
+        {
+          "YEAR": 1995,
+          "EXIT_TYPE": "other_exit",
+          "rows": 32837,
+          "failures": 0,
+          "mean_asset": 436962.82653714
+        },
+        {
+          "YEAR": 1996,
+          "EXIT_TYPE": "failure",
+          "rows": 1480,
+          "failures": 8,
+          "mean_asset": 1428870.33648649
+        },
+        {
+          "YEAR": 1996,
+          "EXIT_TYPE": "open",
+          "rows": 14745,
+          "failures": 0,
+          "mean_asset": 334221.58345202
+        },
+        {
+          "YEAR": 1996,
+          "EXIT_TYPE": "other_exit",
+          "rows": 30584,
+          "failures": 0,
+          "mean_asset": 467461.62212268
+        },
+        {
+          "YEAR": 1997,
+          "EXIT_TYPE": "failure",
+          "rows": 1532,
+          "failures": 10,
+          "mean_asset": 1679486.71801567
+        },
+        {
+          "YEAR": 1997,
+          "EXIT_TYPE": "open",
+          "rows": 14924,
+          "failures": 0,
+          "mean_asset": 403521.69860627
+        },
+        {
+          "YEAR": 1997,
+          "EXIT_TYPE": "other_exit",
+          "rows": 28372,
+          "failures": 0,
+          "mean_asset": 505798.12674468
+        },
+        {
+          "YEAR": 1998,
+          "EXIT_TYPE": "failure",
+          "rows": 1592,
+          "failures": 20,
+          "mean_asset": 1945609.03454774
+        },
+        {
+          "YEAR": 1998,
+          "EXIT_TYPE": "open",
+          "rows": 15108,
+          "failures": 0,
+          "mean_asset": 447489.09577707
+        },
+        {
+          "YEAR": 1998,
+          "EXIT_TYPE": "other_exit",
+          "rows": 26278,
+          "failures": 0,
+          "mean_asset": 575198.25443337
+        },
+        {
+          "YEAR": 1999,
+          "EXIT_TYPE": "failure",
+          "rows": 1687,
+          "failures": 28,
+          "mean_asset": 2477962.58150563
+        },
+        {
+          "YEAR": 1999,
+          "EXIT_TYPE": "open",
+          "rows": 15340,
+          "failures": 0,
+          "mean_asset": 469625.59237288
+        },
+        {
+          "YEAR": 1999,
+          "EXIT_TYPE": "other_exit",
+          "rows": 24589,
+          "failures": 0,
+          "mean_asset": 618144.26088902
+        },
+        {
+          "YEAR": 2000,
+          "EXIT_TYPE": "failure",
+          "rows": 1797,
+          "failures": 21,
+          "mean_asset": 3032203.48135782
+        },
+        {
+          "YEAR": 2000,
+          "EXIT_TYPE": "open",
+          "rows": 15558,
+          "failures": 0,
+          "mean_asset": 517005.9533359
+        },
+        {
+          "YEAR": 2000,
+          "EXIT_TYPE": "other_exit",
+          "rows": 23198,
+          "failures": 0,
+          "mean_asset": 662963.49262867
+        },
+        {
+          "YEAR": 2001,
+          "EXIT_TYPE": "failure",
+          "rows": 1854,
+          "failures": 37,
+          "mean_asset": 3225756.58468177
+        },
+        {
+          "YEAR": 2001,
+          "EXIT_TYPE": "open",
+          "rows": 15728,
+          "failures": 0,
+          "mean_asset": 596170.75228891
+        },
+        {
+          "YEAR": 2001,
+          "EXIT_TYPE": "other_exit",
+          "rows": 21704,
+          "failures": 0,
+          "mean_asset": 715121.4092794
+        },
+        {
+          "YEAR": 2002,
+          "EXIT_TYPE": "failure",
+          "rows": 1877,
+          "failures": 18,
+          "mean_asset": 3566513.53915823
+        },
+        {
+          "YEAR": 2002,
+          "EXIT_TYPE": "open",
+          "rows": 15818,
+          "failures": 0,
+          "mean_asset": 680836.65463396
+        },
+        {
+          "YEAR": 2002,
+          "EXIT_TYPE": "other_exit",
+          "rows": 20451,
+          "failures": 0,
+          "mean_asset": 736374.07129236
+        },
+        {
+          "YEAR": 2003,
+          "EXIT_TYPE": "failure",
+          "rows": 1915,
+          "failures": 19,
+          "mean_asset": 3888649.36553525
+        },
+        {
+          "YEAR": 2003,
+          "EXIT_TYPE": "open",
+          "rows": 15935,
+          "failures": 0,
+          "mean_asset": 752711.41876373
+        },
+        {
+          "YEAR": 2003,
+          "EXIT_TYPE": "other_exit",
+          "rows": 19544,
+          "failures": 0,
+          "mean_asset": 822725.28105813
+        },
+        {
+          "YEAR": 2004,
+          "EXIT_TYPE": "failure",
+          "rows": 1969,
+          "failures": 1,
+          "mean_asset": 4424096.69121381
+        },
+        {
+          "YEAR": 2004,
+          "EXIT_TYPE": "open",
+          "rows": 16079,
+          "failures": 0,
+          "mean_asset": 871280.96529635
+        },
+        {
+          "YEAR": 2004,
+          "EXIT_TYPE": "other_exit",
+          "rows": 18540,
+          "failures": 0,
+          "mean_asset": 876512.1781014
+        },
+        {
+          "YEAR": 2005,
+          "EXIT_TYPE": "failure",
+          "rows": 2070,
+          "failures": 0,
+          "mean_asset": 5141058.60048309
+        },
+        {
+          "YEAR": 2005,
+          "EXIT_TYPE": "open",
+          "rows": 16250,
+          "failures": 0,
+          "mean_asset": 1014595.56116923
+        },
+        {
+          "YEAR": 2005,
+          "EXIT_TYPE": "other_exit",
+          "rows": 17551,
+          "failures": 0,
+          "mean_asset": 864523.09822802
+        },
+        {
+          "YEAR": 2006,
+          "EXIT_TYPE": "failure",
+          "rows": 2180,
+          "failures": 6,
+          "mean_asset": 5745084.64770642
+        },
+        {
+          "YEAR": 2006,
+          "EXIT_TYPE": "open",
+          "rows": 16452,
+          "failures": 0,
+          "mean_asset": 1120460.21675176
+        },
+        {
+          "YEAR": 2006,
+          "EXIT_TYPE": "other_exit",
+          "rows": 16732,
+          "failures": 0,
+          "mean_asset": 919554.85644274
+        },
+        {
+          "YEAR": 2007,
+          "EXIT_TYPE": "failure",
+          "rows": 2231,
+          "failures": 49,
+          "mean_asset": 6654687.62841775
+        },
+        {
+          "YEAR": 2007,
+          "EXIT_TYPE": "open",
+          "rows": 16635,
+          "failures": 0,
+          "mean_asset": 1259569.14211001
+        },
+        {
+          "YEAR": 2007,
+          "EXIT_TYPE": "other_exit",
+          "rows": 15847,
+          "failures": 0,
+          "mean_asset": 907401.92131003
+        },
+        {
+          "YEAR": 2008,
+          "EXIT_TYPE": "failure",
+          "rows": 2188,
+          "failures": 402,
+          "mean_asset": 6255880.98171846
+        },
+        {
+          "YEAR": 2008,
+          "EXIT_TYPE": "open",
+          "rows": 16762,
+          "failures": 0,
+          "mean_asset": 1505088.75927694
+        },
+        {
+          "YEAR": 2008,
+          "EXIT_TYPE": "other_exit",
+          "rows": 15016,
+          "failures": 0,
+          "mean_asset": 945402.59516516
+        },
+        {
+          "YEAR": 2009,
+          "EXIT_TYPE": "failure",
+          "rows": 1787,
+          "failures": 666,
+          "mean_asset": 692386.3659765
+        },
+        {
+          "YEAR": 2009,
+          "EXIT_TYPE": "open",
+          "rows": 16817,
+          "failures": 0,
+          "mean_asset": 1612213.78010347
+        },
+        {
+          "YEAR": 2009,
+          "EXIT_TYPE": "other_exit",
+          "rows": 14234,
+          "failures": 0,
+          "mean_asset": 920284.11971336
+        },
+        {
+          "YEAR": 2010,
+          "EXIT_TYPE": "failure",
+          "rows": 1123,
+          "failures": 457,
+          "mean_asset": 523293.43900267
+        },
+        {
+          "YEAR": 2010,
+          "EXIT_TYPE": "open",
+          "rows": 16824,
+          "failures": 0,
+          "mean_asset": 1794025.46237518
+        },
+        {
+          "YEAR": 2010,
+          "EXIT_TYPE": "other_exit",
+          "rows": 13530,
+          "failures": 0,
+          "mean_asset": 776648.25994087
+        },
+        {
+          "YEAR": 2011,
+          "EXIT_TYPE": "failure",
+          "rows": 668,
+          "failures": 269,
+          "mean_asset": 654363.50748503
+        },
+        {
+          "YEAR": 2011,
+          "EXIT_TYPE": "open",
+          "rows": 16811,
+          "failures": 0,
+          "mean_asset": 1925874.66605199
+        },
+        {
+          "YEAR": 2011,
+          "EXIT_TYPE": "other_exit",
+          "rows": 12685,
+          "failures": 0,
+          "mean_asset": 809874.40126133
+        },
+        {
+          "YEAR": 2012,
+          "EXIT_TYPE": "failure",
+          "rows": 399,
+          "failures": 129,
+          "mean_asset": 995763.72180451
+        },
+        {
+          "YEAR": 2012,
+          "EXIT_TYPE": "open",
+          "rows": 16801,
+          "failures": 0,
+          "mean_asset": 2068295.89738706
+        },
+        {
+          "YEAR": 2012,
+          "EXIT_TYPE": "other_exit",
+          "rows": 11897,
+          "failures": 0,
+          "mean_asset": 840135.27166513
+        },
+        {
+          "YEAR": 2013,
+          "EXIT_TYPE": "failure",
+          "rows": 270,
+          "failures": 79,
+          "mean_asset": 1552955.20740741
+        },
+        {
+          "YEAR": 2013,
+          "EXIT_TYPE": "open",
+          "rows": 16790,
+          "failures": 0,
+          "mean_asset": 2190404.84925551
+        },
+        {
+          "YEAR": 2013,
+          "EXIT_TYPE": "other_exit",
+          "rows": 10875,
+          "failures": 0,
+          "mean_asset": 882761.71871264
+        },
+        {
+          "YEAR": 2014,
+          "EXIT_TYPE": "failure",
+          "rows": 191,
+          "failures": 46,
+          "mean_asset": 2565475.52356021
+        },
+        {
+          "YEAR": 2014,
+          "EXIT_TYPE": "open",
+          "rows": 16786,
+          "failures": 0,
+          "mean_asset": 2350417.72864292
+        },
+        {
+          "YEAR": 2014,
+          "EXIT_TYPE": "other_exit",
+          "rows": 9778,
+          "failures": 0,
+          "mean_asset": 991848.59705461
+        },
+        {
+          "YEAR": 2015,
+          "EXIT_TYPE": "failure",
+          "rows": 145,
+          "failures": 23,
+          "mean_asset": 3752695.44827586
+        },
+        {
+          "YEAR": 2015,
+          "EXIT_TYPE": "open",
+          "rows": 16768,
+          "failures": 0,
+          "mean_asset": 2489372.57693225
+        },
+        {
+          "YEAR": 2015,
+          "EXIT_TYPE": "other_exit",
+          "rows": 8564,
+          "failures": 0,
+          "mean_asset": 1147601.90658571
+        },
+        {
+          "YEAR": 2016,
+          "EXIT_TYPE": "failure",
+          "rows": 122,
+          "failures": 29,
+          "mean_asset": 5148545.42622951
+        },
+        {
+          "YEAR": 2016,
+          "EXIT_TYPE": "open",
+          "rows": 16751,
+          "failures": 0,
+          "mean_asset": 2665359.63870814
+        },
+        {
+          "YEAR": 2016,
+          "EXIT_TYPE": "other_exit",
+          "rows": 7439,
+          "failures": 0,
+          "mean_asset": 1286282.39830622
+        },
+        {
+          "YEAR": 2017,
+          "EXIT_TYPE": "failure",
+          "rows": 93,
+          "failures": 9,
+          "mean_asset": 7619906.89247312
+        },
+        {
+          "YEAR": 2017,
+          "EXIT_TYPE": "open",
+          "rows": 16746,
+          "failures": 0,
+          "mean_asset": 2786171.08712528
+        },
+        {
+          "YEAR": 2017,
+          "EXIT_TYPE": "other_exit",
+          "rows": 6447,
+          "failures": 0,
+          "mean_asset": 1459472.82581045
+        },
+        {
+          "YEAR": 2018,
+          "EXIT_TYPE": "failure",
+          "rows": 84,
+          "failures": 6,
+          "mean_asset": 9534697.82142857
+        },
+        {
+          "YEAR": 2018,
+          "EXIT_TYPE": "open",
+          "rows": 16755,
+          "failures": 0,
+          "mean_asset": 2898169.6062071
+        },
+        {
+          "YEAR": 2018,
+          "EXIT_TYPE": "other_exit",
+          "rows": 5426,
+          "failures": 0,
+          "mean_asset": 1678648.29119056
+        },
+        {
+          "YEAR": 2019,
+          "EXIT_TYPE": "failure",
+          "rows": 78,
+          "failures": 19,
+          "mean_asset": 11644522.3974359
+        },
+        {
+          "YEAR": 2019,
+          "EXIT_TYPE": "open",
+          "rows": 16786,
+          "failures": 0,
+          "mean_asset": 3088482.7176814
+        },
+        {
+          "YEAR": 2019,
+          "EXIT_TYPE": "other_exit",
+          "rows": 4466,
+          "failures": 0,
+          "mean_asset": 1841735.55687416
+        },
+        {
+          "YEAR": 2020,
+          "EXIT_TYPE": "failure",
+          "rows": 59,
+          "failures": 7,
+          "mean_asset": 19790047.27118644
+        },
+        {
+          "YEAR": 2020,
+          "EXIT_TYPE": "open",
+          "rows": 16811,
+          "failures": 0,
+          "mean_asset": 3647249.24936054
+        },
+        {
+          "YEAR": 2020,
+          "EXIT_TYPE": "other_exit",
+          "rows": 3572,
+          "failures": 0,
+          "mean_asset": 2070467.24944009
+        },
+        {
+          "YEAR": 2021,
+          "EXIT_TYPE": "failure",
+          "rows": 52,
+          "failures": 0,
+          "mean_asset": 34680528.63461538
+        },
+        {
+          "YEAR": 2021,
+          "EXIT_TYPE": "open",
+          "rows": 16846,
+          "failures": 0,
+          "mean_asset": 4008986.20699276
+        },
+        {
+          "YEAR": 2021,
+          "EXIT_TYPE": "other_exit",
+          "rows": 3010,
+          "failures": 0,
+          "mean_asset": 2392160.77906977
+        },
+        {
+          "YEAR": 2022,
+          "EXIT_TYPE": "failure",
+          "rows": 52,
+          "failures": 14,
+          "mean_asset": 41175098.92307692
+        },
+        {
+          "YEAR": 2022,
+          "EXIT_TYPE": "open",
+          "rows": 16901,
+          "failures": 0,
+          "mean_asset": 4217503.60937223
+        },
+        {
+          "YEAR": 2022,
+          "EXIT_TYPE": "other_exit",
+          "rows": 2302,
+          "failures": 0,
+          "mean_asset": 2328358.97393571
+        },
+        {
+          "YEAR": 2023,
+          "EXIT_TYPE": "failure",
+          "rows": 37,
+          "failures": 9,
+          "mean_asset": 7030935.64864865
+        },
+        {
+          "YEAR": 2023,
+          "EXIT_TYPE": "open",
+          "rows": 16943,
+          "failures": 0,
+          "mean_asset": 4377598.6008381
+        },
+        {
+          "YEAR": 2023,
+          "EXIT_TYPE": "other_exit",
+          "rows": 1790,
+          "failures": 0,
+          "mean_asset": 2120354.52625698
+        },
+        {
+          "YEAR": 2024,
+          "EXIT_TYPE": "failure",
+          "rows": 26,
+          "failures": 9,
+          "mean_asset": 109139.38461538
+        },
+        {
+          "YEAR": 2024,
+          "EXIT_TYPE": "open",
+          "rows": 16971,
+          "failures": 0,
+          "mean_asset": 4503680.67279477
+        },
+        {
+          "YEAR": 2024,
+          "EXIT_TYPE": "other_exit",
+          "rows": 1374,
+          "failures": 0,
+          "mean_asset": 2491195.27219796
+        },
+        {
+          "YEAR": 2025,
+          "EXIT_TYPE": "failure",
+          "rows": 9,
+          "failures": 4,
+          "mean_asset": 142202.55555556
+        },
+        {
+          "YEAR": 2025,
+          "EXIT_TYPE": "open",
+          "rows": 8499,
+          "failures": 0,
+          "mean_asset": 4674207.72079068
+        },
+        {
+          "YEAR": 2025,
+          "EXIT_TYPE": "other_exit",
+          "rows": 508,
+          "failures": 0,
+          "mean_asset": 2612612.43897638
+        }
+      ],
+      "polars_match": true,
+      "polars_aggregate_rows": 126
+    },
+    {
+      "factor": 2,
+      "status": "complete",
+      "input_rows": 3319212,
+      "estimated_cache_mb": 126.6,
+      "available_memory_mb": 2263.4,
+      "setup_and_cache_s": 9.470495,
+      "warmup_aggregate_s": 2.528222,
+      "median_collect_s": 0.158091,
+      "warm_total_after_startup_s": 12.156808,
+      "min_collect_s": 0.141646,
+      "max_collect_s": 0.280126,
+      "spread_s": 0.13848,
+      "runs": 3,
+      "failure_labels": 24660,
+      "aggregate": [
+        {
+          "YEAR": 1984,
+          "EXIT_TYPE": "failure",
+          "rows": 20314,
+          "failures": 1114,
+          "mean_asset": 333508.05385448
+        },
+        {
+          "YEAR": 1984,
+          "EXIT_TYPE": "open",
+          "rows": 26866,
+          "failures": 0,
+          "mean_asset": 123404.40340951
+        },
+        {
+          "YEAR": 1984,
+          "EXIT_TYPE": "other_exit",
+          "rows": 96074,
+          "failures": 0,
+          "mean_asset": 181425.73045777
+        },
+        {
+          "YEAR": 1985,
+          "EXIT_TYPE": "failure",
+          "rows": 20144,
+          "failures": 1536,
+          "mean_asset": 362939.6049444
+        },
+        {
+          "YEAR": 1985,
+          "EXIT_TYPE": "open",
+          "rows": 27328,
+          "failures": 0,
+          "mean_asset": 132589.68076698
+        },
+        {
+          "YEAR": 1985,
+          "EXIT_TYPE": "other_exit",
+          "rows": 96294,
+          "failures": 0,
+          "mean_asset": 196433.051592
+        },
+        {
+          "YEAR": 1986,
+          "EXIT_TYPE": "failure",
+          "rows": 19244,
+          "failures": 1872,
+          "mean_asset": 402198.44231968
+        },
+        {
+          "YEAR": 1986,
+          "EXIT_TYPE": "open",
+          "rows": 27956,
+          "failures": 0,
+          "mean_asset": 146716.87165546
+        },
+        {
+          "YEAR": 1986,
+          "EXIT_TYPE": "other_exit",
+          "rows": 96684,
+          "failures": 0,
+          "mean_asset": 213417.48094824
+        },
+        {
+          "YEAR": 1987,
+          "EXIT_TYPE": "failure",
+          "rows": 17728,
+          "failures": 2828,
+          "mean_asset": 452790.94189982
+        },
+        {
+          "YEAR": 1987,
+          "EXIT_TYPE": "open",
+          "rows": 28208,
+          "failures": 0,
+          "mean_asset": 156856.24269711
+        },
+        {
+          "YEAR": 1987,
+          "EXIT_TYPE": "other_exit",
+          "rows": 94396,
+          "failures": 0,
+          "mean_asset": 231277.58510954
+        },
+        {
+          "YEAR": 1988,
+          "EXIT_TYPE": "failure",
+          "rows": 15240,
+          "failures": 4614,
+          "mean_asset": 522083.20131234
+        },
+        {
+          "YEAR": 1988,
+          "EXIT_TYPE": "open",
+          "rows": 28424,
+          "failures": 0,
+          "mean_asset": 163819.62686462
+        },
+        {
+          "YEAR": 1988,
+          "EXIT_TYPE": "other_exit",
+          "rows": 90990,
+          "failures": 0,
+          "mean_asset": 259519.00742939
+        },
+        {
+          "YEAR": 1989,
+          "EXIT_TYPE": "failure",
+          "rows": 10772,
+          "failures": 3124,
+          "mean_asset": 607031.69439287
+        },
+        {
+          "YEAR": 1989,
+          "EXIT_TYPE": "open",
+          "rows": 28628,
+          "failures": 0,
+          "mean_asset": 173197.22271902
+        },
+        {
+          "YEAR": 1989,
+          "EXIT_TYPE": "other_exit",
+          "rows": 89240,
+          "failures": 0,
+          "mean_asset": 286411.82864186
+        },
+        {
+          "YEAR": 1990,
+          "EXIT_TYPE": "failure",
+          "rows": 7656,
+          "failures": 2312,
+          "mean_asset": 674332.8061651
+        },
+        {
+          "YEAR": 1990,
+          "EXIT_TYPE": "open",
+          "rows": 28776,
+          "failures": 0,
+          "mean_asset": 188446.41958577
+        },
+        {
+          "YEAR": 1990,
+          "EXIT_TYPE": "other_exit",
+          "rows": 87922,
+          "failures": 0,
+          "mean_asset": 303025.94799936
+        },
+        {
+          "YEAR": 1991,
+          "EXIT_TYPE": "failure",
+          "rows": 5324,
+          "failures": 1528,
+          "mean_asset": 726412.45492111
+        },
+        {
+          "YEAR": 1991,
+          "EXIT_TYPE": "open",
+          "rows": 28936,
+          "failures": 0,
+          "mean_asset": 194808.64120818
+        },
+        {
+          "YEAR": 1991,
+          "EXIT_TYPE": "other_exit",
+          "rows": 84980,
+          "failures": 0,
+          "mean_asset": 312991.0203342
+        },
+        {
+          "YEAR": 1992,
+          "EXIT_TYPE": "failure",
+          "rows": 3784,
+          "failures": 638,
+          "mean_asset": 896705.397463
+        },
+        {
+          "YEAR": 1992,
+          "EXIT_TYPE": "open",
+          "rows": 29042,
+          "failures": 0,
+          "mean_asset": 220126.48522829
+        },
+        {
+          "YEAR": 1992,
+          "EXIT_TYPE": "other_exit",
+          "rows": 80658,
+          "failures": 0,
+          "mean_asset": 322801.36591535
+        },
+        {
+          "YEAR": 1993,
+          "EXIT_TYPE": "failure",
+          "rows": 3136,
+          "failures": 170,
+          "mean_asset": 1022026.51658163
+        },
+        {
+          "YEAR": 1993,
+          "EXIT_TYPE": "open",
+          "rows": 29124,
+          "failures": 0,
+          "mean_asset": 236788.93730257
+        },
+        {
+          "YEAR": 1993,
+          "EXIT_TYPE": "other_exit",
+          "rows": 76356,
+          "failures": 0,
+          "mean_asset": 342261.02561685
+        },
+        {
+          "YEAR": 1994,
+          "EXIT_TYPE": "failure",
+          "rows": 2984,
+          "failures": 92,
+          "mean_asset": 1216537.96581769
+        },
+        {
+          "YEAR": 1994,
+          "EXIT_TYPE": "open",
+          "rows": 29194,
+          "failures": 0,
+          "mean_asset": 259823.76426663
+        },
+        {
+          "YEAR": 1994,
+          "EXIT_TYPE": "other_exit",
+          "rows": 71268,
+          "failures": 0,
+          "mean_asset": 383435.79800191
+        },
+        {
+          "YEAR": 1995,
+          "EXIT_TYPE": "failure",
+          "rows": 2940,
+          "failures": 44,
+          "mean_asset": 1340139.04421769
+        },
+        {
+          "YEAR": 1995,
+          "EXIT_TYPE": "open",
+          "rows": 29308,
+          "failures": 0,
+          "mean_asset": 282150.73201856
+        },
+        {
+          "YEAR": 1995,
+          "EXIT_TYPE": "other_exit",
+          "rows": 65674,
+          "failures": 0,
+          "mean_asset": 436962.82653714
+        },
+        {
+          "YEAR": 1996,
+          "EXIT_TYPE": "failure",
+          "rows": 2960,
+          "failures": 16,
+          "mean_asset": 1428870.33648649
+        },
+        {
+          "YEAR": 1996,
+          "EXIT_TYPE": "open",
+          "rows": 29490,
+          "failures": 0,
+          "mean_asset": 334221.58345202
+        },
+        {
+          "YEAR": 1996,
+          "EXIT_TYPE": "other_exit",
+          "rows": 61168,
+          "failures": 0,
+          "mean_asset": 467461.62212268
+        },
+        {
+          "YEAR": 1997,
+          "EXIT_TYPE": "failure",
+          "rows": 3064,
+          "failures": 20,
+          "mean_asset": 1679486.71801567
+        },
+        {
+          "YEAR": 1997,
+          "EXIT_TYPE": "open",
+          "rows": 29848,
+          "failures": 0,
+          "mean_asset": 403521.69860627
+        },
+        {
+          "YEAR": 1997,
+          "EXIT_TYPE": "other_exit",
+          "rows": 56744,
+          "failures": 0,
+          "mean_asset": 505798.12674468
+        },
+        {
+          "YEAR": 1998,
+          "EXIT_TYPE": "failure",
+          "rows": 3184,
+          "failures": 40,
+          "mean_asset": 1945609.03454774
+        },
+        {
+          "YEAR": 1998,
+          "EXIT_TYPE": "open",
+          "rows": 30216,
+          "failures": 0,
+          "mean_asset": 447489.09577707
+        },
+        {
+          "YEAR": 1998,
+          "EXIT_TYPE": "other_exit",
+          "rows": 52556,
+          "failures": 0,
+          "mean_asset": 575198.25443337
+        },
+        {
+          "YEAR": 1999,
+          "EXIT_TYPE": "failure",
+          "rows": 3374,
+          "failures": 56,
+          "mean_asset": 2477962.58150563
+        },
+        {
+          "YEAR": 1999,
+          "EXIT_TYPE": "open",
+          "rows": 30680,
+          "failures": 0,
+          "mean_asset": 469625.59237288
+        },
+        {
+          "YEAR": 1999,
+          "EXIT_TYPE": "other_exit",
+          "rows": 49178,
+          "failures": 0,
+          "mean_asset": 618144.26088902
+        },
+        {
+          "YEAR": 2000,
+          "EXIT_TYPE": "failure",
+          "rows": 3594,
+          "failures": 42,
+          "mean_asset": 3032203.48135782
+        },
+        {
+          "YEAR": 2000,
+          "EXIT_TYPE": "open",
+          "rows": 31116,
+          "failures": 0,
+          "mean_asset": 517005.9533359
+        },
+        {
+          "YEAR": 2000,
+          "EXIT_TYPE": "other_exit",
+          "rows": 46396,
+          "failures": 0,
+          "mean_asset": 662963.49262867
+        },
+        {
+          "YEAR": 2001,
+          "EXIT_TYPE": "failure",
+          "rows": 3708,
+          "failures": 74,
+          "mean_asset": 3225756.58468177
+        },
+        {
+          "YEAR": 2001,
+          "EXIT_TYPE": "open",
+          "rows": 31456,
+          "failures": 0,
+          "mean_asset": 596170.75228891
+        },
+        {
+          "YEAR": 2001,
+          "EXIT_TYPE": "other_exit",
+          "rows": 43408,
+          "failures": 0,
+          "mean_asset": 715121.4092794
+        },
+        {
+          "YEAR": 2002,
+          "EXIT_TYPE": "failure",
+          "rows": 3754,
+          "failures": 36,
+          "mean_asset": 3566513.53915823
+        },
+        {
+          "YEAR": 2002,
+          "EXIT_TYPE": "open",
+          "rows": 31636,
+          "failures": 0,
+          "mean_asset": 680836.65463396
+        },
+        {
+          "YEAR": 2002,
+          "EXIT_TYPE": "other_exit",
+          "rows": 40902,
+          "failures": 0,
+          "mean_asset": 736374.07129236
+        },
+        {
+          "YEAR": 2003,
+          "EXIT_TYPE": "failure",
+          "rows": 3830,
+          "failures": 38,
+          "mean_asset": 3888649.36553525
+        },
+        {
+          "YEAR": 2003,
+          "EXIT_TYPE": "open",
+          "rows": 31870,
+          "failures": 0,
+          "mean_asset": 752711.41876373
+        },
+        {
+          "YEAR": 2003,
+          "EXIT_TYPE": "other_exit",
+          "rows": 39088,
+          "failures": 0,
+          "mean_asset": 822725.28105813
+        },
+        {
+          "YEAR": 2004,
+          "EXIT_TYPE": "failure",
+          "rows": 3938,
+          "failures": 2,
+          "mean_asset": 4424096.69121381
+        },
+        {
+          "YEAR": 2004,
+          "EXIT_TYPE": "open",
+          "rows": 32158,
+          "failures": 0,
+          "mean_asset": 871280.96529635
+        },
+        {
+          "YEAR": 2004,
+          "EXIT_TYPE": "other_exit",
+          "rows": 37080,
+          "failures": 0,
+          "mean_asset": 876512.1781014
+        },
+        {
+          "YEAR": 2005,
+          "EXIT_TYPE": "failure",
+          "rows": 4140,
+          "failures": 0,
+          "mean_asset": 5141058.60048309
+        },
+        {
+          "YEAR": 2005,
+          "EXIT_TYPE": "open",
+          "rows": 32500,
+          "failures": 0,
+          "mean_asset": 1014595.56116923
+        },
+        {
+          "YEAR": 2005,
+          "EXIT_TYPE": "other_exit",
+          "rows": 35102,
+          "failures": 0,
+          "mean_asset": 864523.09822802
+        },
+        {
+          "YEAR": 2006,
+          "EXIT_TYPE": "failure",
+          "rows": 4360,
+          "failures": 12,
+          "mean_asset": 5745084.64770642
+        },
+        {
+          "YEAR": 2006,
+          "EXIT_TYPE": "open",
+          "rows": 32904,
+          "failures": 0,
+          "mean_asset": 1120460.21675176
+        },
+        {
+          "YEAR": 2006,
+          "EXIT_TYPE": "other_exit",
+          "rows": 33464,
+          "failures": 0,
+          "mean_asset": 919554.85644274
+        },
+        {
+          "YEAR": 2007,
+          "EXIT_TYPE": "failure",
+          "rows": 4462,
+          "failures": 98,
+          "mean_asset": 6654687.62841775
+        },
+        {
+          "YEAR": 2007,
+          "EXIT_TYPE": "open",
+          "rows": 33270,
+          "failures": 0,
+          "mean_asset": 1259569.14211001
+        },
+        {
+          "YEAR": 2007,
+          "EXIT_TYPE": "other_exit",
+          "rows": 31694,
+          "failures": 0,
+          "mean_asset": 907401.92131003
+        },
+        {
+          "YEAR": 2008,
+          "EXIT_TYPE": "failure",
+          "rows": 4376,
+          "failures": 804,
+          "mean_asset": 6255880.98171846
+        },
+        {
+          "YEAR": 2008,
+          "EXIT_TYPE": "open",
+          "rows": 33524,
+          "failures": 0,
+          "mean_asset": 1505088.75927694
+        },
+        {
+          "YEAR": 2008,
+          "EXIT_TYPE": "other_exit",
+          "rows": 30032,
+          "failures": 0,
+          "mean_asset": 945402.59516516
+        },
+        {
+          "YEAR": 2009,
+          "EXIT_TYPE": "failure",
+          "rows": 3574,
+          "failures": 1332,
+          "mean_asset": 692386.3659765
+        },
+        {
+          "YEAR": 2009,
+          "EXIT_TYPE": "open",
+          "rows": 33634,
+          "failures": 0,
+          "mean_asset": 1612213.78010347
+        },
+        {
+          "YEAR": 2009,
+          "EXIT_TYPE": "other_exit",
+          "rows": 28468,
+          "failures": 0,
+          "mean_asset": 920284.11971336
+        },
+        {
+          "YEAR": 2010,
+          "EXIT_TYPE": "failure",
+          "rows": 2246,
+          "failures": 914,
+          "mean_asset": 523293.43900267
+        },
+        {
+          "YEAR": 2010,
+          "EXIT_TYPE": "open",
+          "rows": 33648,
+          "failures": 0,
+          "mean_asset": 1794025.46237518
+        },
+        {
+          "YEAR": 2010,
+          "EXIT_TYPE": "other_exit",
+          "rows": 27060,
+          "failures": 0,
+          "mean_asset": 776648.25994087
+        },
+        {
+          "YEAR": 2011,
+          "EXIT_TYPE": "failure",
+          "rows": 1336,
+          "failures": 538,
+          "mean_asset": 654363.50748503
+        },
+        {
+          "YEAR": 2011,
+          "EXIT_TYPE": "open",
+          "rows": 33622,
+          "failures": 0,
+          "mean_asset": 1925874.66605199
+        },
+        {
+          "YEAR": 2011,
+          "EXIT_TYPE": "other_exit",
+          "rows": 25370,
+          "failures": 0,
+          "mean_asset": 809874.40126133
+        },
+        {
+          "YEAR": 2012,
+          "EXIT_TYPE": "failure",
+          "rows": 798,
+          "failures": 258,
+          "mean_asset": 995763.72180451
+        },
+        {
+          "YEAR": 2012,
+          "EXIT_TYPE": "open",
+          "rows": 33602,
+          "failures": 0,
+          "mean_asset": 2068295.89738706
+        },
+        {
+          "YEAR": 2012,
+          "EXIT_TYPE": "other_exit",
+          "rows": 23794,
+          "failures": 0,
+          "mean_asset": 840135.27166513
+        },
+        {
+          "YEAR": 2013,
+          "EXIT_TYPE": "failure",
+          "rows": 540,
+          "failures": 158,
+          "mean_asset": 1552955.20740741
+        },
+        {
+          "YEAR": 2013,
+          "EXIT_TYPE": "open",
+          "rows": 33580,
+          "failures": 0,
+          "mean_asset": 2190404.84925551
+        },
+        {
+          "YEAR": 2013,
+          "EXIT_TYPE": "other_exit",
+          "rows": 21750,
+          "failures": 0,
+          "mean_asset": 882761.71871264
+        },
+        {
+          "YEAR": 2014,
+          "EXIT_TYPE": "failure",
+          "rows": 382,
+          "failures": 92,
+          "mean_asset": 2565475.52356021
+        },
+        {
+          "YEAR": 2014,
+          "EXIT_TYPE": "open",
+          "rows": 33572,
+          "failures": 0,
+          "mean_asset": 2350417.72864292
+        },
+        {
+          "YEAR": 2014,
+          "EXIT_TYPE": "other_exit",
+          "rows": 19556,
+          "failures": 0,
+          "mean_asset": 991848.59705461
+        },
+        {
+          "YEAR": 2015,
+          "EXIT_TYPE": "failure",
+          "rows": 290,
+          "failures": 46,
+          "mean_asset": 3752695.44827586
+        },
+        {
+          "YEAR": 2015,
+          "EXIT_TYPE": "open",
+          "rows": 33536,
+          "failures": 0,
+          "mean_asset": 2489372.57693225
+        },
+        {
+          "YEAR": 2015,
+          "EXIT_TYPE": "other_exit",
+          "rows": 17128,
+          "failures": 0,
+          "mean_asset": 1147601.90658571
+        },
+        {
+          "YEAR": 2016,
+          "EXIT_TYPE": "failure",
+          "rows": 244,
+          "failures": 58,
+          "mean_asset": 5148545.42622951
+        },
+        {
+          "YEAR": 2016,
+          "EXIT_TYPE": "open",
+          "rows": 33502,
+          "failures": 0,
+          "mean_asset": 2665359.63870814
+        },
+        {
+          "YEAR": 2016,
+          "EXIT_TYPE": "other_exit",
+          "rows": 14878,
+          "failures": 0,
+          "mean_asset": 1286282.39830622
+        },
+        {
+          "YEAR": 2017,
+          "EXIT_TYPE": "failure",
+          "rows": 186,
+          "failures": 18,
+          "mean_asset": 7619906.89247312
+        },
+        {
+          "YEAR": 2017,
+          "EXIT_TYPE": "open",
+          "rows": 33492,
+          "failures": 0,
+          "mean_asset": 2786171.08712528
+        },
+        {
+          "YEAR": 2017,
+          "EXIT_TYPE": "other_exit",
+          "rows": 12894,
+          "failures": 0,
+          "mean_asset": 1459472.82581045
+        },
+        {
+          "YEAR": 2018,
+          "EXIT_TYPE": "failure",
+          "rows": 168,
+          "failures": 12,
+          "mean_asset": 9534697.82142857
+        },
+        {
+          "YEAR": 2018,
+          "EXIT_TYPE": "open",
+          "rows": 33510,
+          "failures": 0,
+          "mean_asset": 2898169.6062071
+        },
+        {
+          "YEAR": 2018,
+          "EXIT_TYPE": "other_exit",
+          "rows": 10852,
+          "failures": 0,
+          "mean_asset": 1678648.29119056
+        },
+        {
+          "YEAR": 2019,
+          "EXIT_TYPE": "failure",
+          "rows": 156,
+          "failures": 38,
+          "mean_asset": 11644522.3974359
+        },
+        {
+          "YEAR": 2019,
+          "EXIT_TYPE": "open",
+          "rows": 33572,
+          "failures": 0,
+          "mean_asset": 3088482.7176814
+        },
+        {
+          "YEAR": 2019,
+          "EXIT_TYPE": "other_exit",
+          "rows": 8932,
+          "failures": 0,
+          "mean_asset": 1841735.55687416
+        },
+        {
+          "YEAR": 2020,
+          "EXIT_TYPE": "failure",
+          "rows": 118,
+          "failures": 14,
+          "mean_asset": 19790047.27118644
+        },
+        {
+          "YEAR": 2020,
+          "EXIT_TYPE": "open",
+          "rows": 33622,
+          "failures": 0,
+          "mean_asset": 3647249.24936054
+        },
+        {
+          "YEAR": 2020,
+          "EXIT_TYPE": "other_exit",
+          "rows": 7144,
+          "failures": 0,
+          "mean_asset": 2070467.24944009
+        },
+        {
+          "YEAR": 2021,
+          "EXIT_TYPE": "failure",
+          "rows": 104,
+          "failures": 0,
+          "mean_asset": 34680528.63461538
+        },
+        {
+          "YEAR": 2021,
+          "EXIT_TYPE": "open",
+          "rows": 33692,
+          "failures": 0,
+          "mean_asset": 4008986.20699276
+        },
+        {
+          "YEAR": 2021,
+          "EXIT_TYPE": "other_exit",
+          "rows": 6020,
+          "failures": 0,
+          "mean_asset": 2392160.77906977
+        },
+        {
+          "YEAR": 2022,
+          "EXIT_TYPE": "failure",
+          "rows": 104,
+          "failures": 28,
+          "mean_asset": 41175098.92307692
+        },
+        {
+          "YEAR": 2022,
+          "EXIT_TYPE": "open",
+          "rows": 33802,
+          "failures": 0,
+          "mean_asset": 4217503.60937223
+        },
+        {
+          "YEAR": 2022,
+          "EXIT_TYPE": "other_exit",
+          "rows": 4604,
+          "failures": 0,
+          "mean_asset": 2328358.97393571
+        },
+        {
+          "YEAR": 2023,
+          "EXIT_TYPE": "failure",
+          "rows": 74,
+          "failures": 18,
+          "mean_asset": 7030935.64864865
+        },
+        {
+          "YEAR": 2023,
+          "EXIT_TYPE": "open",
+          "rows": 33886,
+          "failures": 0,
+          "mean_asset": 4377598.6008381
+        },
+        {
+          "YEAR": 2023,
+          "EXIT_TYPE": "other_exit",
+          "rows": 3580,
+          "failures": 0,
+          "mean_asset": 2120354.52625698
+        },
+        {
+          "YEAR": 2024,
+          "EXIT_TYPE": "failure",
+          "rows": 52,
+          "failures": 18,
+          "mean_asset": 109139.38461538
+        },
+        {
+          "YEAR": 2024,
+          "EXIT_TYPE": "open",
+          "rows": 33942,
+          "failures": 0,
+          "mean_asset": 4503680.67279477
+        },
+        {
+          "YEAR": 2024,
+          "EXIT_TYPE": "other_exit",
+          "rows": 2748,
+          "failures": 0,
+          "mean_asset": 2491195.27219796
+        },
+        {
+          "YEAR": 2025,
+          "EXIT_TYPE": "failure",
+          "rows": 18,
+          "failures": 8,
+          "mean_asset": 142202.55555556
+        },
+        {
+          "YEAR": 2025,
+          "EXIT_TYPE": "open",
+          "rows": 16998,
+          "failures": 0,
+          "mean_asset": 4674207.72079068
+        },
+        {
+          "YEAR": 2025,
+          "EXIT_TYPE": "other_exit",
+          "rows": 1016,
+          "failures": 0,
+          "mean_asset": 2612612.43897638
+        }
+      ],
+      "polars_match": true,
+      "polars_aggregate_rows": 126
+    },
+    {
+      "factor": 4,
+      "status": "complete",
+      "input_rows": 6638424,
+      "estimated_cache_mb": 253.2,
+      "available_memory_mb": 2263.4,
+      "setup_and_cache_s": 18.14652,
+      "warmup_aggregate_s": 3.791275,
+      "median_collect_s": 0.126398,
+      "warm_total_after_startup_s": 22.064193,
+      "min_collect_s": 0.118839,
+      "max_collect_s": 0.133022,
+      "spread_s": 0.014183,
+      "runs": 3,
+      "failure_labels": 49320,
+      "aggregate": [
+        {
+          "YEAR": 1984,
+          "EXIT_TYPE": "failure",
+          "rows": 40628,
+          "failures": 2228,
+          "mean_asset": 333508.05385448
+        },
+        {
+          "YEAR": 1984,
+          "EXIT_TYPE": "open",
+          "rows": 53732,
+          "failures": 0,
+          "mean_asset": 123404.40340951
+        },
+        {
+          "YEAR": 1984,
+          "EXIT_TYPE": "other_exit",
+          "rows": 192148,
+          "failures": 0,
+          "mean_asset": 181425.73045777
+        },
+        {
+          "YEAR": 1985,
+          "EXIT_TYPE": "failure",
+          "rows": 40288,
+          "failures": 3072,
+          "mean_asset": 362939.6049444
+        },
+        {
+          "YEAR": 1985,
+          "EXIT_TYPE": "open",
+          "rows": 54656,
+          "failures": 0,
+          "mean_asset": 132589.68076698
+        },
+        {
+          "YEAR": 1985,
+          "EXIT_TYPE": "other_exit",
+          "rows": 192588,
+          "failures": 0,
+          "mean_asset": 196433.051592
+        },
+        {
+          "YEAR": 1986,
+          "EXIT_TYPE": "failure",
+          "rows": 38488,
+          "failures": 3744,
+          "mean_asset": 402198.44231968
+        },
+        {
+          "YEAR": 1986,
+          "EXIT_TYPE": "open",
+          "rows": 55912,
+          "failures": 0,
+          "mean_asset": 146716.87165546
+        },
+        {
+          "YEAR": 1986,
+          "EXIT_TYPE": "other_exit",
+          "rows": 193368,
+          "failures": 0,
+          "mean_asset": 213417.48094824
+        },
+        {
+          "YEAR": 1987,
+          "EXIT_TYPE": "failure",
+          "rows": 35456,
+          "failures": 5656,
+          "mean_asset": 452790.94189982
+        },
+        {
+          "YEAR": 1987,
+          "EXIT_TYPE": "open",
+          "rows": 56416,
+          "failures": 0,
+          "mean_asset": 156856.24269711
+        },
+        {
+          "YEAR": 1987,
+          "EXIT_TYPE": "other_exit",
+          "rows": 188792,
+          "failures": 0,
+          "mean_asset": 231277.58510954
+        },
+        {
+          "YEAR": 1988,
+          "EXIT_TYPE": "failure",
+          "rows": 30480,
+          "failures": 9228,
+          "mean_asset": 522083.20131234
+        },
+        {
+          "YEAR": 1988,
+          "EXIT_TYPE": "open",
+          "rows": 56848,
+          "failures": 0,
+          "mean_asset": 163819.62686462
+        },
+        {
+          "YEAR": 1988,
+          "EXIT_TYPE": "other_exit",
+          "rows": 181980,
+          "failures": 0,
+          "mean_asset": 259519.00742939
+        },
+        {
+          "YEAR": 1989,
+          "EXIT_TYPE": "failure",
+          "rows": 21544,
+          "failures": 6248,
+          "mean_asset": 607031.69439287
+        },
+        {
+          "YEAR": 1989,
+          "EXIT_TYPE": "open",
+          "rows": 57256,
+          "failures": 0,
+          "mean_asset": 173197.22271902
+        },
+        {
+          "YEAR": 1989,
+          "EXIT_TYPE": "other_exit",
+          "rows": 178480,
+          "failures": 0,
+          "mean_asset": 286411.82864186
+        },
+        {
+          "YEAR": 1990,
+          "EXIT_TYPE": "failure",
+          "rows": 15312,
+          "failures": 4624,
+          "mean_asset": 674332.8061651
+        },
+        {
+          "YEAR": 1990,
+          "EXIT_TYPE": "open",
+          "rows": 57552,
+          "failures": 0,
+          "mean_asset": 188446.41958577
+        },
+        {
+          "YEAR": 1990,
+          "EXIT_TYPE": "other_exit",
+          "rows": 175844,
+          "failures": 0,
+          "mean_asset": 303025.94799936
+        },
+        {
+          "YEAR": 1991,
+          "EXIT_TYPE": "failure",
+          "rows": 10648,
+          "failures": 3056,
+          "mean_asset": 726412.45492111
+        },
+        {
+          "YEAR": 1991,
+          "EXIT_TYPE": "open",
+          "rows": 57872,
+          "failures": 0,
+          "mean_asset": 194808.64120818
+        },
+        {
+          "YEAR": 1991,
+          "EXIT_TYPE": "other_exit",
+          "rows": 169960,
+          "failures": 0,
+          "mean_asset": 312991.0203342
+        },
+        {
+          "YEAR": 1992,
+          "EXIT_TYPE": "failure",
+          "rows": 7568,
+          "failures": 1276,
+          "mean_asset": 896705.397463
+        },
+        {
+          "YEAR": 1992,
+          "EXIT_TYPE": "open",
+          "rows": 58084,
+          "failures": 0,
+          "mean_asset": 220126.48522829
+        },
+        {
+          "YEAR": 1992,
+          "EXIT_TYPE": "other_exit",
+          "rows": 161316,
+          "failures": 0,
+          "mean_asset": 322801.36591535
+        },
+        {
+          "YEAR": 1993,
+          "EXIT_TYPE": "failure",
+          "rows": 6272,
+          "failures": 340,
+          "mean_asset": 1022026.51658163
+        },
+        {
+          "YEAR": 1993,
+          "EXIT_TYPE": "open",
+          "rows": 58248,
+          "failures": 0,
+          "mean_asset": 236788.93730257
+        },
+        {
+          "YEAR": 1993,
+          "EXIT_TYPE": "other_exit",
+          "rows": 152712,
+          "failures": 0,
+          "mean_asset": 342261.02561685
+        },
+        {
+          "YEAR": 1994,
+          "EXIT_TYPE": "failure",
+          "rows": 5968,
+          "failures": 184,
+          "mean_asset": 1216537.96581769
+        },
+        {
+          "YEAR": 1994,
+          "EXIT_TYPE": "open",
+          "rows": 58388,
+          "failures": 0,
+          "mean_asset": 259823.76426663
+        },
+        {
+          "YEAR": 1994,
+          "EXIT_TYPE": "other_exit",
+          "rows": 142536,
+          "failures": 0,
+          "mean_asset": 383435.79800191
+        },
+        {
+          "YEAR": 1995,
+          "EXIT_TYPE": "failure",
+          "rows": 5880,
+          "failures": 88,
+          "mean_asset": 1340139.04421769
+        },
+        {
+          "YEAR": 1995,
+          "EXIT_TYPE": "open",
+          "rows": 58616,
+          "failures": 0,
+          "mean_asset": 282150.73201856
+        },
+        {
+          "YEAR": 1995,
+          "EXIT_TYPE": "other_exit",
+          "rows": 131348,
+          "failures": 0,
+          "mean_asset": 436962.82653714
+        },
+        {
+          "YEAR": 1996,
+          "EXIT_TYPE": "failure",
+          "rows": 5920,
+          "failures": 32,
+          "mean_asset": 1428870.33648649
+        },
+        {
+          "YEAR": 1996,
+          "EXIT_TYPE": "open",
+          "rows": 58980,
+          "failures": 0,
+          "mean_asset": 334221.58345202
+        },
+        {
+          "YEAR": 1996,
+          "EXIT_TYPE": "other_exit",
+          "rows": 122336,
+          "failures": 0,
+          "mean_asset": 467461.62212268
+        },
+        {
+          "YEAR": 1997,
+          "EXIT_TYPE": "failure",
+          "rows": 6128,
+          "failures": 40,
+          "mean_asset": 1679486.71801567
+        },
+        {
+          "YEAR": 1997,
+          "EXIT_TYPE": "open",
+          "rows": 59696,
+          "failures": 0,
+          "mean_asset": 403521.69860627
+        },
+        {
+          "YEAR": 1997,
+          "EXIT_TYPE": "other_exit",
+          "rows": 113488,
+          "failures": 0,
+          "mean_asset": 505798.12674468
+        },
+        {
+          "YEAR": 1998,
+          "EXIT_TYPE": "failure",
+          "rows": 6368,
+          "failures": 80,
+          "mean_asset": 1945609.03454774
+        },
+        {
+          "YEAR": 1998,
+          "EXIT_TYPE": "open",
+          "rows": 60432,
+          "failures": 0,
+          "mean_asset": 447489.09577707
+        },
+        {
+          "YEAR": 1998,
+          "EXIT_TYPE": "other_exit",
+          "rows": 105112,
+          "failures": 0,
+          "mean_asset": 575198.25443337
+        },
+        {
+          "YEAR": 1999,
+          "EXIT_TYPE": "failure",
+          "rows": 6748,
+          "failures": 112,
+          "mean_asset": 2477962.58150563
+        },
+        {
+          "YEAR": 1999,
+          "EXIT_TYPE": "open",
+          "rows": 61360,
+          "failures": 0,
+          "mean_asset": 469625.59237288
+        },
+        {
+          "YEAR": 1999,
+          "EXIT_TYPE": "other_exit",
+          "rows": 98356,
+          "failures": 0,
+          "mean_asset": 618144.26088902
+        },
+        {
+          "YEAR": 2000,
+          "EXIT_TYPE": "failure",
+          "rows": 7188,
+          "failures": 84,
+          "mean_asset": 3032203.48135782
+        },
+        {
+          "YEAR": 2000,
+          "EXIT_TYPE": "open",
+          "rows": 62232,
+          "failures": 0,
+          "mean_asset": 517005.9533359
+        },
+        {
+          "YEAR": 2000,
+          "EXIT_TYPE": "other_exit",
+          "rows": 92792,
+          "failures": 0,
+          "mean_asset": 662963.49262867
+        },
+        {
+          "YEAR": 2001,
+          "EXIT_TYPE": "failure",
+          "rows": 7416,
+          "failures": 148,
+          "mean_asset": 3225756.58468177
+        },
+        {
+          "YEAR": 2001,
+          "EXIT_TYPE": "open",
+          "rows": 62912,
+          "failures": 0,
+          "mean_asset": 596170.75228891
+        },
+        {
+          "YEAR": 2001,
+          "EXIT_TYPE": "other_exit",
+          "rows": 86816,
+          "failures": 0,
+          "mean_asset": 715121.4092794
+        },
+        {
+          "YEAR": 2002,
+          "EXIT_TYPE": "failure",
+          "rows": 7508,
+          "failures": 72,
+          "mean_asset": 3566513.53915823
+        },
+        {
+          "YEAR": 2002,
+          "EXIT_TYPE": "open",
+          "rows": 63272,
+          "failures": 0,
+          "mean_asset": 680836.65463396
+        },
+        {
+          "YEAR": 2002,
+          "EXIT_TYPE": "other_exit",
+          "rows": 81804,
+          "failures": 0,
+          "mean_asset": 736374.07129236
+        },
+        {
+          "YEAR": 2003,
+          "EXIT_TYPE": "failure",
+          "rows": 7660,
+          "failures": 76,
+          "mean_asset": 3888649.36553525
+        },
+        {
+          "YEAR": 2003,
+          "EXIT_TYPE": "open",
+          "rows": 63740,
+          "failures": 0,
+          "mean_asset": 752711.41876373
+        },
+        {
+          "YEAR": 2003,
+          "EXIT_TYPE": "other_exit",
+          "rows": 78176,
+          "failures": 0,
+          "mean_asset": 822725.28105813
+        },
+        {
+          "YEAR": 2004,
+          "EXIT_TYPE": "failure",
+          "rows": 7876,
+          "failures": 4,
+          "mean_asset": 4424096.69121381
+        },
+        {
+          "YEAR": 2004,
+          "EXIT_TYPE": "open",
+          "rows": 64316,
+          "failures": 0,
+          "mean_asset": 871280.96529635
+        },
+        {
+          "YEAR": 2004,
+          "EXIT_TYPE": "other_exit",
+          "rows": 74160,
+          "failures": 0,
+          "mean_asset": 876512.1781014
+        },
+        {
+          "YEAR": 2005,
+          "EXIT_TYPE": "failure",
+          "rows": 8280,
+          "failures": 0,
+          "mean_asset": 5141058.60048309
+        },
+        {
+          "YEAR": 2005,
+          "EXIT_TYPE": "open",
+          "rows": 65000,
+          "failures": 0,
+          "mean_asset": 1014595.56116923
+        },
+        {
+          "YEAR": 2005,
+          "EXIT_TYPE": "other_exit",
+          "rows": 70204,
+          "failures": 0,
+          "mean_asset": 864523.09822802
+        },
+        {
+          "YEAR": 2006,
+          "EXIT_TYPE": "failure",
+          "rows": 8720,
+          "failures": 24,
+          "mean_asset": 5745084.64770642
+        },
+        {
+          "YEAR": 2006,
+          "EXIT_TYPE": "open",
+          "rows": 65808,
+          "failures": 0,
+          "mean_asset": 1120460.21675176
+        },
+        {
+          "YEAR": 2006,
+          "EXIT_TYPE": "other_exit",
+          "rows": 66928,
+          "failures": 0,
+          "mean_asset": 919554.85644274
+        },
+        {
+          "YEAR": 2007,
+          "EXIT_TYPE": "failure",
+          "rows": 8924,
+          "failures": 196,
+          "mean_asset": 6654687.62841775
+        },
+        {
+          "YEAR": 2007,
+          "EXIT_TYPE": "open",
+          "rows": 66540,
+          "failures": 0,
+          "mean_asset": 1259569.14211001
+        },
+        {
+          "YEAR": 2007,
+          "EXIT_TYPE": "other_exit",
+          "rows": 63388,
+          "failures": 0,
+          "mean_asset": 907401.92131003
+        },
+        {
+          "YEAR": 2008,
+          "EXIT_TYPE": "failure",
+          "rows": 8752,
+          "failures": 1608,
+          "mean_asset": 6255880.98171846
+        },
+        {
+          "YEAR": 2008,
+          "EXIT_TYPE": "open",
+          "rows": 67048,
+          "failures": 0,
+          "mean_asset": 1505088.75927694
+        },
+        {
+          "YEAR": 2008,
+          "EXIT_TYPE": "other_exit",
+          "rows": 60064,
+          "failures": 0,
+          "mean_asset": 945402.59516516
+        },
+        {
+          "YEAR": 2009,
+          "EXIT_TYPE": "failure",
+          "rows": 7148,
+          "failures": 2664,
+          "mean_asset": 692386.3659765
+        },
+        {
+          "YEAR": 2009,
+          "EXIT_TYPE": "open",
+          "rows": 67268,
+          "failures": 0,
+          "mean_asset": 1612213.78010347
+        },
+        {
+          "YEAR": 2009,
+          "EXIT_TYPE": "other_exit",
+          "rows": 56936,
+          "failures": 0,
+          "mean_asset": 920284.11971336
+        },
+        {
+          "YEAR": 2010,
+          "EXIT_TYPE": "failure",
+          "rows": 4492,
+          "failures": 1828,
+          "mean_asset": 523293.43900267
+        },
+        {
+          "YEAR": 2010,
+          "EXIT_TYPE": "open",
+          "rows": 67296,
+          "failures": 0,
+          "mean_asset": 1794025.46237518
+        },
+        {
+          "YEAR": 2010,
+          "EXIT_TYPE": "other_exit",
+          "rows": 54120,
+          "failures": 0,
+          "mean_asset": 776648.25994087
+        },
+        {
+          "YEAR": 2011,
+          "EXIT_TYPE": "failure",
+          "rows": 2672,
+          "failures": 1076,
+          "mean_asset": 654363.50748503
+        },
+        {
+          "YEAR": 2011,
+          "EXIT_TYPE": "open",
+          "rows": 67244,
+          "failures": 0,
+          "mean_asset": 1925874.66605199
+        },
+        {
+          "YEAR": 2011,
+          "EXIT_TYPE": "other_exit",
+          "rows": 50740,
+          "failures": 0,
+          "mean_asset": 809874.40126133
+        },
+        {
+          "YEAR": 2012,
+          "EXIT_TYPE": "failure",
+          "rows": 1596,
+          "failures": 516,
+          "mean_asset": 995763.72180451
+        },
+        {
+          "YEAR": 2012,
+          "EXIT_TYPE": "open",
+          "rows": 67204,
+          "failures": 0,
+          "mean_asset": 2068295.89738706
+        },
+        {
+          "YEAR": 2012,
+          "EXIT_TYPE": "other_exit",
+          "rows": 47588,
+          "failures": 0,
+          "mean_asset": 840135.27166513
+        },
+        {
+          "YEAR": 2013,
+          "EXIT_TYPE": "failure",
+          "rows": 1080,
+          "failures": 316,
+          "mean_asset": 1552955.20740741
+        },
+        {
+          "YEAR": 2013,
+          "EXIT_TYPE": "open",
+          "rows": 67160,
+          "failures": 0,
+          "mean_asset": 2190404.84925551
+        },
+        {
+          "YEAR": 2013,
+          "EXIT_TYPE": "other_exit",
+          "rows": 43500,
+          "failures": 0,
+          "mean_asset": 882761.71871264
+        },
+        {
+          "YEAR": 2014,
+          "EXIT_TYPE": "failure",
+          "rows": 764,
+          "failures": 184,
+          "mean_asset": 2565475.52356021
+        },
+        {
+          "YEAR": 2014,
+          "EXIT_TYPE": "open",
+          "rows": 67144,
+          "failures": 0,
+          "mean_asset": 2350417.72864292
+        },
+        {
+          "YEAR": 2014,
+          "EXIT_TYPE": "other_exit",
+          "rows": 39112,
+          "failures": 0,
+          "mean_asset": 991848.59705461
+        },
+        {
+          "YEAR": 2015,
+          "EXIT_TYPE": "failure",
+          "rows": 580,
+          "failures": 92,
+          "mean_asset": 3752695.44827586
+        },
+        {
+          "YEAR": 2015,
+          "EXIT_TYPE": "open",
+          "rows": 67072,
+          "failures": 0,
+          "mean_asset": 2489372.57693225
+        },
+        {
+          "YEAR": 2015,
+          "EXIT_TYPE": "other_exit",
+          "rows": 34256,
+          "failures": 0,
+          "mean_asset": 1147601.90658571
+        },
+        {
+          "YEAR": 2016,
+          "EXIT_TYPE": "failure",
+          "rows": 488,
+          "failures": 116,
+          "mean_asset": 5148545.42622951
+        },
+        {
+          "YEAR": 2016,
+          "EXIT_TYPE": "open",
+          "rows": 67004,
+          "failures": 0,
+          "mean_asset": 2665359.63870814
+        },
+        {
+          "YEAR": 2016,
+          "EXIT_TYPE": "other_exit",
+          "rows": 29756,
+          "failures": 0,
+          "mean_asset": 1286282.39830622
+        },
+        {
+          "YEAR": 2017,
+          "EXIT_TYPE": "failure",
+          "rows": 372,
+          "failures": 36,
+          "mean_asset": 7619906.89247312
+        },
+        {
+          "YEAR": 2017,
+          "EXIT_TYPE": "open",
+          "rows": 66984,
+          "failures": 0,
+          "mean_asset": 2786171.08712528
+        },
+        {
+          "YEAR": 2017,
+          "EXIT_TYPE": "other_exit",
+          "rows": 25788,
+          "failures": 0,
+          "mean_asset": 1459472.82581045
+        },
+        {
+          "YEAR": 2018,
+          "EXIT_TYPE": "failure",
+          "rows": 336,
+          "failures": 24,
+          "mean_asset": 9534697.82142857
+        },
+        {
+          "YEAR": 2018,
+          "EXIT_TYPE": "open",
+          "rows": 67020,
+          "failures": 0,
+          "mean_asset": 2898169.6062071
+        },
+        {
+          "YEAR": 2018,
+          "EXIT_TYPE": "other_exit",
+          "rows": 21704,
+          "failures": 0,
+          "mean_asset": 1678648.29119056
+        },
+        {
+          "YEAR": 2019,
+          "EXIT_TYPE": "failure",
+          "rows": 312,
+          "failures": 76,
+          "mean_asset": 11644522.3974359
+        },
+        {
+          "YEAR": 2019,
+          "EXIT_TYPE": "open",
+          "rows": 67144,
+          "failures": 0,
+          "mean_asset": 3088482.7176814
+        },
+        {
+          "YEAR": 2019,
+          "EXIT_TYPE": "other_exit",
+          "rows": 17864,
+          "failures": 0,
+          "mean_asset": 1841735.55687416
+        },
+        {
+          "YEAR": 2020,
+          "EXIT_TYPE": "failure",
+          "rows": 236,
+          "failures": 28,
+          "mean_asset": 19790047.27118644
+        },
+        {
+          "YEAR": 2020,
+          "EXIT_TYPE": "open",
+          "rows": 67244,
+          "failures": 0,
+          "mean_asset": 3647249.24936054
+        },
+        {
+          "YEAR": 2020,
+          "EXIT_TYPE": "other_exit",
+          "rows": 14288,
+          "failures": 0,
+          "mean_asset": 2070467.24944009
+        },
+        {
+          "YEAR": 2021,
+          "EXIT_TYPE": "failure",
+          "rows": 208,
+          "failures": 0,
+          "mean_asset": 34680528.63461538
+        },
+        {
+          "YEAR": 2021,
+          "EXIT_TYPE": "open",
+          "rows": 67384,
+          "failures": 0,
+          "mean_asset": 4008986.20699276
+        },
+        {
+          "YEAR": 2021,
+          "EXIT_TYPE": "other_exit",
+          "rows": 12040,
+          "failures": 0,
+          "mean_asset": 2392160.77906977
+        },
+        {
+          "YEAR": 2022,
+          "EXIT_TYPE": "failure",
+          "rows": 208,
+          "failures": 56,
+          "mean_asset": 41175098.92307692
+        },
+        {
+          "YEAR": 2022,
+          "EXIT_TYPE": "open",
+          "rows": 67604,
+          "failures": 0,
+          "mean_asset": 4217503.60937223
+        },
+        {
+          "YEAR": 2022,
+          "EXIT_TYPE": "other_exit",
+          "rows": 9208,
+          "failures": 0,
+          "mean_asset": 2328358.97393571
+        },
+        {
+          "YEAR": 2023,
+          "EXIT_TYPE": "failure",
+          "rows": 148,
+          "failures": 36,
+          "mean_asset": 7030935.64864865
+        },
+        {
+          "YEAR": 2023,
+          "EXIT_TYPE": "open",
+          "rows": 67772,
+          "failures": 0,
+          "mean_asset": 4377598.6008381
+        },
+        {
+          "YEAR": 2023,
+          "EXIT_TYPE": "other_exit",
+          "rows": 7160,
+          "failures": 0,
+          "mean_asset": 2120354.52625698
+        },
+        {
+          "YEAR": 2024,
+          "EXIT_TYPE": "failure",
+          "rows": 104,
+          "failures": 36,
+          "mean_asset": 109139.38461538
+        },
+        {
+          "YEAR": 2024,
+          "EXIT_TYPE": "open",
+          "rows": 67884,
+          "failures": 0,
+          "mean_asset": 4503680.67279477
+        },
+        {
+          "YEAR": 2024,
+          "EXIT_TYPE": "other_exit",
+          "rows": 5496,
+          "failures": 0,
+          "mean_asset": 2491195.27219796
+        },
+        {
+          "YEAR": 2025,
+          "EXIT_TYPE": "failure",
+          "rows": 36,
+          "failures": 16,
+          "mean_asset": 142202.55555556
+        },
+        {
+          "YEAR": 2025,
+          "EXIT_TYPE": "open",
+          "rows": 33996,
+          "failures": 0,
+          "mean_asset": 4674207.72079068
+        },
+        {
+          "YEAR": 2025,
+          "EXIT_TYPE": "other_exit",
+          "rows": 2032,
+          "failures": 0,
+          "mean_asset": 2612612.43897638
+        }
+      ],
+      "polars_match": true,
+      "polars_aggregate_rows": 126
+    },
+    {
+      "factor": 8,
+      "input_rows": 13276848,
+      "status": "skipped_memory_guard",
+      "estimated_cache_mb": 506.5,
+      "available_memory_mb": 2263.4,
+      "runs": 0
+    }
+  ],
+  "physical_plan": "AdaptiveSparkPlan isFinalPlan=true\n+- == Final Plan ==\n   ResultQueryStage 6\n   +- *(3) Sort [YEAR#191 ASC NULLS FIRST, EXIT_TYPE#16 ASC NULLS FIRST], true, 0\n      +- AQEShuffleRead coalesced\n         +- ShuffleQueryStage 2\n            +- Exchange rangepartitioning(YEAR#191 ASC NULLS FIRST, EXIT_TYPE#16 ASC NULLS FIRST, 8), ENSURE_REQUIREMENTS, [plan_id=223]\n               +- *(2) HashAggregate(keys=[YEAR#191, EXIT_TYPE#16], functions=[count(1), sum(target#190), avg(ASSET#3)], output=[YEAR#191, EXIT_TYPE#16, rows#192L, failures#193L, mean_asset#194])\n                  +- AQEShuffleRead coalesced\n                     +- ShuffleQueryStage 1\n                        +- Exchange hashpartitioning(YEAR#191, EXIT_TYPE#16, 8), ENSURE_REQUIREMENTS, [plan_id=192]\n                           +- *(1) HashAggregate(keys=[YEAR#191, EXIT_TYPE#16], functions=[partial_count(1), partial_sum(target#190), partial_avg(ASSET#3)], output=[YEAR#191, EXIT_TYPE#16, count#284L, sum#285L, sum#286, count#287L])\n                              +- *(1) Project [ASSET#3, EXIT_TYPE#16, CASE WHEN ((isnotnull(FAIL_DT#15) AND (FAIL_DT#15 > REPDTE#1)) AND (FAIL_DT#15 <= add_months(REPDTE#1, 12))) THEN 1 ELSE 0 END AS target#190, year(REPDTE#1) AS YEAR#191]\n                                 +- *(1) Filter (((isnotnull(ASSET#3) AND isnotnull(REPDTE#1)) AND (ASSET#3 > 0.0)) AND (REPDTE#1 <= 2025-06-30))\n                                    +- TableCacheQueryStage 0\n                                       +- InMemoryTableScan [ASSET#3, EXIT_TYPE#16, FAIL_DT#15, REPDTE#1], [isnotnull(ASSET#3), isnotnull(REPDTE#1), (ASSET#3 > 0.0), (REPDTE#1 <= 2025-06-30)]\n                                             +- InMemoryRelation [CERT#0L, REPDTE#1, ASSET#3, FAIL_DT#15, EXIT_TYPE#16], StorageLevel(disk, memory, deserialized, 1 replicas)\n                                                   +- *(1) Filter (((isnotnull(ASSET#3) AND isnotnull(REPDTE#1)) AND (ASSET#3 > 0.0)) AND (REPDTE#1 <= 2025-06-30))\n                                                      +- *(1) ColumnarToRow\n                                                         +- FileScan parquet [CERT#0L,REPDTE#1,ASSET#3,FAIL_DT#15,EXIT_TYPE#16] Batched: true, DataFilters: [isnotnull(ASSET#3), isnotnull(REPDTE#1), (ASSET#3 > 0.0), (REPDTE#1 <= 2025-06-30)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/D:/fdic-ccc/data/processed/part2/bank_quarter_panel.parquet], PartitionFilters: [], PushedFilters: [IsNotNull(ASSET), IsNotNull(REPDTE), GreaterThan(ASSET,0.0), LessThanOrEqual(REPDTE,2025-06-30)], ReadSchema: struct<CERT:bigint,REPDTE:date,ASSET:double,FAIL_DT:date,EXIT_TYPE:string>\n+- == Initial Plan ==\n   Sort [YEAR#191 ASC NULLS FIRST, EXIT_TYPE#16 ASC NULLS FIRST], true, 0\n   +- Exchange rangepartitioning(YEAR#191 ASC NULLS FIRST, EXIT_TYPE#16 ASC NULLS FIRST, 8), ENSURE_REQUIREMENTS, [plan_id=134]\n      +- HashAggregate(keys=[YEAR#191, EXIT_TYPE#16], functions=[count(1), sum(target#190), avg(ASSET#3)], output=[YEAR#191, EXIT_TYPE#16, rows#192L, failures#193L, mean_asset#194])\n         +- Exchange hashpartitioning(YEAR#191, EXIT_TYPE#16, 8), ENSURE_REQUIREMENTS, [plan_id=131]\n            +- HashAggregate(keys=[YEAR#191, EXIT_TYPE#16], functions=[partial_count(1), partial_sum(target#190), partial_avg(ASSET#3)], output=[YEAR#191, EXIT_TYPE#16, count#284L, sum#285L, sum#286, count#287L])\n               +- Project [ASSET#3, EXIT_TYPE#16, CASE WHEN ((isnotnull(FAIL_DT#15) AND (FAIL_DT#15 > REPDTE#1)) AND (FAIL_DT#15 <= add_months(REPDTE#1, 12))) THEN 1 ELSE 0 END AS target#190, year(REPDTE#1) AS YEAR#191]\n                  +- Filter (((isnotnull(ASSET#3) AND isnotnull(REPDTE#1)) AND (ASSET#3 > 0.0)) AND (REPDTE#1 <= 2025-06-30))\n                     +- InMemoryTableScan [ASSET#3, EXIT_TYPE#16, FAIL_DT#15, REPDTE#1], [isnotnull(ASSET#3), isnotnull(REPDTE#1), (ASSET#3 > 0.0), (REPDTE#1 <= 2025-06-30)]\n                           +- InMemoryRelation [CERT#0L, REPDTE#1, ASSET#3, FAIL_DT#15, EXIT_TYPE#16], StorageLevel(disk, memory, deserialized, 1 replicas)\n                                 +- *(1) Filter (((isnotnull(ASSET#3) AND isnotnull(REPDTE#1)) AND (ASSET#3 > 0.0)) AND (REPDTE#1 <= 2025-06-30))\n                                    +- *(1) ColumnarToRow\n                                       +- FileScan parquet [CERT#0L,REPDTE#1,ASSET#3,FAIL_DT#15,EXIT_TYPE#16] Batched: true, DataFilters: [isnotnull(ASSET#3), isnotnull(REPDTE#1), (ASSET#3 > 0.0), (REPDTE#1 <= 2025-06-30)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/D:/fdic-ccc/data/processed/part2/bank_quarter_panel.parquet], PartitionFilters: [], PushedFilters: [IsNotNull(ASSET), IsNotNull(REPDTE), GreaterThan(ASSET,0.0), LessThanOrEqual(REPDTE,2025-06-30)], ReadSchema: struct<CERT:bigint,REPDTE:date,ASSET:double,FAIL_DT:date,EXIT_TYPE:string>\n"
+}

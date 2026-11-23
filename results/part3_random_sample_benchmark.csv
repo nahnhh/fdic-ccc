@@ -1,0 +1,4 @@
+fraction,sampling,input_rows,polars_input_size_mb,pandas_input_size_mb,polars_median_s,polars_spread_s,polars_median_baseline_rss_mb,polars_median_peak_rss_mb,polars_median_peak_rss_increase_mb,pandas_median_s,pandas_spread_s,pandas_median_baseline_rss_mb,pandas_median_peak_rss_mb,pandas_median_peak_rss_increase_mb,runs,speedup_x,output_match
+0.25,random seed=20241123,414901,53.36,61.336,0.042459,0.012575,844.418,844.441,0.035,0.36578,0.016727,842.285,911.762,69.473,3,8.615,true
+0.5,random seed=20241123,829803,106.719,122.672,0.078613,0.0095,1077.035,1077.328,0.293,0.658796,0.018619,1076.848,1213.613,136.809,3,8.38,true
+1.0,random seed=20241123,1659606,213.437,245.343,0.148138,0.013073,1452.797,1454.328,1.531,1.253061,0.036294,1333.961,1612.805,278.844,3,8.459,true
