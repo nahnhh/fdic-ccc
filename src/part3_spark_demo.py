@@ -1,11 +1,48 @@
 from __future__ import annotations
 
 import json
+import statistics
 import sys
+import tempfile
 import time
+from pathlib import Path
 
 import psutil
+import polars as pl
 from pyspark.sql import SparkSession, functions as F
+
+
+LABEL_JOIN_COLUMNS = ["CERT", "REPDTE", "FAIL_DT", "CHANGEC1", "EXIT_DT"]
+
+
+def spark_label_join(panel):
+    failures = (
+        panel.filter(F.col("FAIL_DT").isNotNull())
+        .select("CERT", "FAIL_DT")
+        .distinct()
+    )
+    institutions = panel.select("CERT", "CHANGEC1", "EXIT_DT").distinct()
+    return (
+        panel.select("CERT", "REPDTE")
+        .join(failures, on="CERT", how="left")
+        .join(institutions, on="CERT", how="left")
+        .select(*LABEL_JOIN_COLUMNS)
+    )
+
+
+def polars_label_join(panel: pl.DataFrame) -> pl.DataFrame:
+    failures = (
+        panel.filter(pl.col("FAIL_DT").is_not_null())
+        .select("CERT", "FAIL_DT")
+        .unique()
+    )
+    institutions = panel.select("CERT", "CHANGEC1", "EXIT_DT").unique()
+    return (
+        panel.select("CERT", "REPDTE")
+        .join(failures, on="CERT", how="left")
+        .join(institutions, on="CERT", how="left")
+        .select(LABEL_JOIN_COLUMNS)
+    )
 
 
 def aggregate_panel(panel):
@@ -34,7 +71,9 @@ def aggregate_panel(panel):
     )
 
 
-def main(panel_path: str) -> None:
+def main(panel_path: str, repeats: int = 5) -> None:
+    if repeats < 5:
+        raise ValueError("Spark benchmark repeats must be at least 5")
     available_memory = psutil.virtual_memory().available
     startup_start = time.perf_counter()
     spark = (
@@ -48,6 +87,52 @@ def main(panel_path: str) -> None:
     )
     spark.sparkContext.setLogLevel("ERROR")
     startup_elapsed = time.perf_counter() - startup_start
+
+    join_source = (
+        spark.read.parquet(panel_path)
+        .select(*LABEL_JOIN_COLUMNS)
+        .cache()
+    )
+    join_input_rows = join_source.count()
+    joined = spark_label_join(join_source)
+    join_warmup_start = time.perf_counter()
+    join_output_rows = joined.count()
+    join_warmup_elapsed = time.perf_counter() - join_warmup_start
+    join_timings = []
+    for _ in range(repeats):
+        start = time.perf_counter()
+        joined.count()
+        join_timings.append(time.perf_counter() - start)
+
+    reference_panel = pl.read_parquet(panel_path).select(LABEL_JOIN_COLUMNS)
+    reference_join = polars_label_join(reference_panel)
+    with tempfile.TemporaryDirectory(prefix="fdic-spark-join-") as temp_dir:
+        reference_path = Path(temp_dir) / "polars_join.parquet"
+        reference_join.write_parquet(reference_path, compression="zstd")
+        reference_spark = spark.read.parquet(str(reference_path)).select(
+            *LABEL_JOIN_COLUMNS
+        )
+        mismatch_rows = (
+            joined.exceptAll(reference_spark).count()
+            + reference_spark.exceptAll(joined).count()
+        )
+    label_join_result = {
+        "input_rows": join_input_rows,
+        "spark_output_rows": join_output_rows,
+        "polars_reference_rows": reference_join.height,
+        "mismatch_rows": mismatch_rows,
+        "output_match": (
+            join_output_rows == reference_join.height and mismatch_rows == 0
+        ),
+        "warmup_s": round(join_warmup_elapsed, 6),
+        "median_s": round(statistics.median(join_timings), 6),
+        "min_s": round(min(join_timings), 6),
+        "max_s": round(max(join_timings), 6),
+        "spread_s": round(max(join_timings) - min(join_timings), 6),
+        "runs": repeats,
+        "physical_plan": joined._jdf.queryExecution().executedPlan().toString(),
+    }
+    join_source.unpersist()
 
     base = (
         spark.read.parquet(panel_path)
@@ -97,12 +182,10 @@ def main(panel_path: str) -> None:
         aggregate.collect()
         warmup_elapsed = time.perf_counter() - warmup_start
         timings = []
-        for _ in range(3):
+        for _ in range(repeats):
             start = time.perf_counter()
             rows = aggregate.collect()
             timings.append(time.perf_counter() - start)
-        import statistics
-
         median_elapsed = round(statistics.median(timings), 6)
         group_results = [
             {
@@ -129,7 +212,7 @@ def main(panel_path: str) -> None:
             "min_collect_s": round(min(timings), 6),
             "max_collect_s": round(max(timings), 6),
             "spread_s": round(max(timings) - min(timings), 6),
-            "runs": 3,
+            "runs": repeats,
             "failure_labels": replicated.where(
                 (F.col("ASSET") > 0)
                 & (F.col("REPDTE") <= F.lit("2025-06-30").cast("date"))
@@ -152,6 +235,7 @@ def main(panel_path: str) -> None:
         "zero_duplicate_keys_verified_in_part2": True,
         "reason_deduplicate_not_used": "Part 2 verified zero duplicate (CERT, REPDTE) keys",
         "filter_applied_before_cache": True,
+        "label_join": label_join_result,
         "scales": scales,
         "physical_plan": physical_plan,
     }
@@ -160,4 +244,6 @@ def main(panel_path: str) -> None:
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    panel_path = sys.argv[1]
+    repeats = int(sys.argv[2]) if len(sys.argv) > 2 else 5
+    main(panel_path, repeats)

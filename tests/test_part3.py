@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import json
 import sys
 import unittest
@@ -106,18 +107,38 @@ class Part3Test(unittest.TestCase):
         machine_path = ROOT / "results" / "part3_machine_metadata.json"
         sample_path = ROOT / "results" / "part3_random_sample_benchmark.csv"
         scale_path = ROOT / "results" / "part3_replication_benchmark.csv"
+        core_path = ROOT / "results" / "part3_core_job_benchmark.csv"
         spark_path = ROOT / "results" / "part3_spark_validation.json"
-        for path in (machine_path, sample_path, scale_path, spark_path):
+        for path in (machine_path, sample_path, scale_path, core_path, spark_path):
             self.assertTrue(path.exists(), path)
         machine = json.loads(machine_path.read_text(encoding="utf-8"))
         self.assertIn("total_memory_gb", machine)
         self.assertIn("logical_cpu_count", machine)
         self.assertIn("seed", machine)
+        with core_path.open(encoding="utf-8", newline="") as csv_file:
+            self.assertTrue(
+                all(int(row["runs"]) >= 5 for row in csv.DictReader(csv_file))
+            )
+        with sample_path.open(encoding="utf-8", newline="") as csv_file:
+            self.assertTrue(
+                all(int(row["runs"]) >= 5 for row in csv.DictReader(csv_file))
+            )
+        with scale_path.open(encoding="utf-8", newline="") as csv_file:
+            completed_runs = [
+                int(row["runs"])
+                for row in csv.DictReader(csv_file)
+                if row["status"] == "complete"
+            ]
+        self.assertTrue(completed_runs)
+        self.assertTrue(all(runs >= 5 for runs in completed_runs))
         spark = json.loads(spark_path.read_text(encoding="utf-8"))
         self.assertTrue(spark["success"])
+        self.assertTrue(spark["label_join"]["output_match"])
+        self.assertGreaterEqual(spark["label_join"]["runs"], 5)
         completed = [scale for scale in spark["scales"] if scale["status"] == "complete"]
         self.assertGreaterEqual(len(completed), 2)
         self.assertTrue(all(scale["polars_match"] for scale in completed))
+        self.assertTrue(all(scale["runs"] >= 5 for scale in completed))
         self.assertFalse(spark["deduplicate_used"])
 
 

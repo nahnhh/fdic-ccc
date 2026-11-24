@@ -188,7 +188,7 @@ def pandas_dedup_check(panel: pd.DataFrame) -> int:
     return int(panel.duplicated(["CERT", "REPDTE"]).sum())
 
 
-def measure(func, repeats: int = 3) -> dict:
+def measure(func, repeats: int = 5) -> dict:
     gc.collect()
     func()
     timings = []
@@ -444,7 +444,7 @@ def benchmark_replication(full: pl.DataFrame, repeats: int) -> list[dict]:
     return rows
 
 
-def run_spark(panel_path: Path) -> dict:
+def run_spark(panel_path: Path, repeats: int) -> dict:
     java_candidates = []
     if java_home := os.environ.get("JAVA_HOME"):
         java_candidates.append(Path(java_home))
@@ -462,7 +462,12 @@ def run_spark(panel_path: Path) -> dict:
     env["PYSPARK_PYTHON"] = sys.executable
     env["PYSPARK_DRIVER_PYTHON"] = sys.executable
     process = subprocess.run(
-        [sys.executable, str(ROOT / "src" / "part3_spark_demo.py"), str(panel_path)],
+        [
+            sys.executable,
+            str(ROOT / "src" / "part3_spark_demo.py"),
+            str(panel_path),
+            str(repeats),
+        ],
         cwd=ROOT,
         env=env,
         capture_output=True,
@@ -501,17 +506,19 @@ def run_spark(panel_path: Path) -> dict:
     ]
     spark_result["success"] = bool(completed) and all(
         scale.get("polars_match") for scale in completed
-    )
+    ) and bool(spark_result.get("label_join", {}).get("output_match"))
     return spark_result
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--panel", type=Path, default=PANEL)
-    parser.add_argument("--repeats", type=int, default=3)
+    parser.add_argument("--repeats", type=int, default=5)
     parser.add_argument("--skip-spark", action="store_true")
     args = parser.parse_args()
 
+    if args.repeats < 5:
+        parser.error("--repeats must be at least 5")
     if not args.panel.exists():
         raise FileNotFoundError(f"{args.panel} not found")
 
@@ -528,7 +535,11 @@ def main() -> None:
         json.dumps(machine_metadata(), indent=2), encoding="utf-8"
     )
 
-    spark = {"available": False, "reason": "skipped"} if args.skip_spark else run_spark(args.panel)
+    spark = (
+        {"available": False, "reason": "skipped"}
+        if args.skip_spark
+        else run_spark(args.panel, args.repeats)
+    )
     (RESULTS / "part3_spark_validation.json").write_text(
         json.dumps(spark, indent=2), encoding="utf-8"
     )

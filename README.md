@@ -84,7 +84,16 @@ python tests/test_part2.py
 Outputs are written to `data/processed/part2/` and are ignored by Git:
 
 - `bank_quarter_panel.parquet`: typed bank-quarter observations with `EXIT_TYPE`, `EXIT_DATE`, and `FAIL_4Q`
-- `data_quality_report.json`: row counts, key integrity, nulls, failure/exit reconciliation, and panel coverage
+- `data_quality_report.json`: row counts, key integrity, nulls, failure/exit reconciliation, panel coverage, numeric consistency checks, and per-era value distributions
+- `data_quality_report.csv`: flattened `path,type,value` rows for spreadsheet inspection; the JSON report remains unchanged and authoritative
+
+The audit flags nonfinite or unparseable core values, equity above assets,
+negative deposits, and deposits above assets. It also reports per-era quantiles
+and 1.5-IQR outlier counts for core fields, plus positive-median ratios between
+eras as a scale-change screen. These are review diagnostics: unusual values are
+not automatically dropped; deposits above assets can occur with negative equity.
+Distribution shifts alone cannot establish historical unit or field-definition
+changes.
 
 The canonical model label column is `target`; `FAIL_4Q` is retained as a
 backward-compatible name and must remain equal to `target`.
@@ -94,7 +103,7 @@ backward-compatible name and must remain equal to `target`.
 Run the fair Polars/pandas benchmark and local PySpark demonstration:
 
 ```powershell
-python src/part3_scalable_processing.py --repeats 3
+python src/part3_scalable_processing.py --repeats 5
 python src/part3_polars_plan.py
 python tests/test_part3.py
 ```
@@ -105,9 +114,10 @@ The Spark step requires Java 17 or newer. Install the project dependencies from
 The benchmark times label joining, point-in-time four-quarter labels, four
 quarterly asset lags, duplicate-key checks, and the complete Polars/pandas
 aggregation separately. It also uses seeded random samples, reports run
-counts, spreads, process RSS growth, machine details, and scales the narrow
-five-column workload to 2x, 4x, and 8x. It stops before a replication if an
-estimated pandas working set would exceed the available-memory guard.
+counts (five measured runs for each completed benchmark), spreads, process RSS
+growth, machine details, and scales the narrow five-column workload to 2x, 4x,
+and 8x. It stops before a replication if an estimated pandas working set would
+exceed the available-memory guard.
 Replications are synthetic repeated panels with bank identifiers offset to
 preserve unique bank-quarter keys; the five columns are `CERT`, `REPDTE`,
 `ASSET`, `FAIL_DT`, and `EXIT_TYPE`. Timings exclude loading and constructing
@@ -127,30 +137,33 @@ to avoid a needless full-key shuffle.
 `results/part3_replication_benchmark.csv`, and
 `results/part3_machine_metadata.json` contain the measured evidence.
 `results/part3_spark_validation.json` contains per-group Spark-versus-Polars
-checks and the physical plan. Spark reports JVM startup separately from
-post-cache aggregation timings. Its local run uses two cores, whereas Polars
+checks, the Spark reproduction of the CERT label join, and the physical plans.
+The join output is compared with Polars as a multiset; Spark reports its
+row-count timing over five measured runs. Spark reports JVM startup separately
+from post-cache aggregation timings, which also use five measured runs. Its
+local run uses two cores, whereas Polars
 uses the local thread pool; the comparison is an engine demonstration, not a
 hardware-matched cluster speed test.
-The physical plan shows pushed Parquet filters and the expected aggregation
-shuffle; it has no `(CERT, REPDTE)` deduplication shuffle.
+The aggregate physical plan shows pushed Parquet filters and the expected
+aggregation shuffle; it has no `(CERT, REPDTE)` deduplication shuffle.
 Running `python src/part3_polars_plan.py` captures Polars'
 `LazyFrame.explain(optimized=True)` output and writes it with annotations for
 the pushed filter, projected columns, and lack of deduplication shuffle to
 `results/part3_polars_aggregate_plan.txt`.
 
 On the current Windows laptop (Intel i5-9300H, 4 physical/8 logical cores,
-7.85 GiB RAM), full-panel aggregation took 0.141 s in Polars and 1.256 s in
-pandas (8.9x). With 8x replication (13.28M rows), Polars took 0.959 s and
-pandas 8.639 s; pandas' measured peak RSS increase was about 900 MiB. Both
-completed, so this experiment found no pandas memory failure or cluster
-crossover at 8x. Local Spark completed per-group checks at 1x, 2x, and 4x;
-the 8x Spark cache was skipped by the memory guard. Spark's JVM startup was
-36.1 s, and cache/setup plus one warm aggregation took about 12.9 s at 1x and
-22.1 s at 4x. Those setup costs make a cluster unjustified for this workload.
-A cluster becomes reasonable when projected data/intermediate working sets
-exceed available machine memory, or when distributed input/output, throughput,
-and fault-tolerance requirements outweigh startup, shuffle, and data-transfer
-costs.
+7.85 GiB RAM), the five-run full-panel aggregation median was 0.036 s in Polars
+and 0.375 s in pandas (10.4x). At 4x replication (6.64M rows), medians were
+0.132 s and 1.289 s (9.8x); 8x was skipped by the pandas memory guard in this
+run. Local Spark reproduced the 1,659,606-row CERT label join in five measured
+runs (0.899 s median) with zero multiset differences from Polars. Spark's
+aggregate also matched Polars at 1x, 2x, and 4x with five runs each; its 8x
+cache was skipped by the memory guard. Spark startup was 10.7 s, separate from
+post-cache timings. These results demonstrate local execution, not a cluster
+crossover. A cluster becomes reasonable when projected data/intermediate
+working sets exceed available machine memory, or when distributed input/output,
+throughput, and fault-tolerance requirements outweigh startup, shuffle, and
+data-transfer costs.
 
 ## Part 4
 
@@ -185,8 +198,12 @@ python tests/test_part4.py
 
 ## Part 5
 
-Part 5 fits a prior-prevalence baseline, a one-feature NPA logistic baseline,
-and a 15-feature CAMELS logistic model. Thresholds are selected from
+Part 5 compares a prior-prevalence baseline, a one-feature NPA logistic
+baseline, a 15-feature CAMELS logistic model, and a 15-feature
+HistGradientBoosting classifier. The boosted-tree model uses training-only
+0.5th/99.5th-percentile clipping and median imputation (scaling is omitted
+because tree splits do not require it); its fixed settings are recorded in the
+JSON report. For the scikit-learn models, thresholds are selected from
 out-of-fold predictions over four expanding-window validation folds, each
 separated from its training period by a four-quarter gap. The scikit-learn
 models are then refit on all eligible development rows through 2006Q4 before
@@ -203,7 +220,11 @@ validation-period total estimated cost. A missed failure is charged once per
 failed bank only if no alert occurs in its positive 12-month window. As an
 independent capacity operating point, the top 1% of validation scores is also
 evaluated. Test average precision is reported with a bank-clustered bootstrap
-interval. Costs are in thousands of USD.
+interval. A test-era CSV reports scikit-learn model metrics separately for
+2008–2014 and 2015–2025 using each model's unchanged validation-selected
+threshold; these descriptive test slices are not used to select models or
+thresholds. A fresh Spark run also adds its per-era rows. Costs are in thousands
+of USD.
 
 The Spark MLlib LogisticRegression demonstration uses a training-only
 clipping/imputation/scaling pipeline, selects its illustrative threshold on the
@@ -219,8 +240,9 @@ python tests/test_part5.py
 The report and threshold sensitivity table are saved to
 `results/part5_validation_report.json` and
 `results/part5_threshold_sensitivity.csv`; the concise model comparison is
-`results/part5_model_metrics.csv`. Final standardized scikit-learn coefficients
-are saved to `results/part5_final_model_coefficients.csv`.
+`results/part5_model_metrics.csv`. Test-period era comparisons are saved to
+`results/part5_test_per_era_metrics.csv`. Final standardized logistic
+coefficients are saved to `results/part5_final_model_coefficients.csv`.
 
 ## Part 6: Conclusion - In the docs
 

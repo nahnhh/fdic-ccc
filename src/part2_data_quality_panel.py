@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 from pathlib import Path
 
@@ -9,6 +10,41 @@ import polars as pl
 
 CORE_FIELDS = ["ASSET", "DEP", "EQ", "NETINC", "ROA", "NCLNLS", "LNATRES", "RBC1AAJ"]
 MODEL_END = __import__("datetime").date(2025, 6, 30)
+
+
+def flatten_quality_report(value: object, path: str = "") -> list[dict[str, str]]:
+    if isinstance(value, dict):
+        if not value:
+            return [{"path": path, "type": "object", "value": "{}"}]
+        rows = []
+        for key, child in value.items():
+            child_path = f"{path}.{key}" if path else str(key)
+            rows.extend(flatten_quality_report(child, child_path))
+        return rows
+    if isinstance(value, list):
+        if not value:
+            return [{"path": path, "type": "array", "value": "[]"}]
+        rows = []
+        for index, child in enumerate(value):
+            rows.extend(flatten_quality_report(child, f"{path}[{index}]"))
+        return rows
+    if value is None:
+        value_type, text = "null", ""
+    elif isinstance(value, bool):
+        value_type, text = "boolean", str(value).lower()
+    elif isinstance(value, (int, float)):
+        value_type, text = "number", str(value)
+    else:
+        value_type, text = "string", str(value)
+    return [{"path": path, "type": value_type, "value": text}]
+
+
+def write_quality_report_csv(report: dict, path: Path) -> None:
+    rows = flatten_quality_report(report)
+    with path.open("w", encoding="utf-8", newline="") as output:
+        writer = csv.DictWriter(output, fieldnames=["path", "type", "value"])
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def parse_mmddyyyy(series: pl.Series) -> pl.Series:
@@ -50,6 +86,103 @@ def typed_financials(fin: pl.DataFrame) -> pl.DataFrame:
     if "P3ASSET" in fin.columns:
         expressions.append(pl.col("P3ASSET").cast(pl.Int64, strict=False))
     return fin.select(*expressions)
+
+
+def summarize_numeric_values(values: pl.Series) -> dict:
+    numeric = values.cast(pl.Float64, strict=False)
+    finite = numeric.filter(numeric.is_finite().fill_null(False))
+    if finite.is_empty():
+        return {
+            "finite_rows": 0,
+            "minimum": None,
+            "p01": None,
+            "median": None,
+            "p99": None,
+            "maximum": None,
+            "iqr_fence_lower": None,
+            "iqr_fence_upper": None,
+            "potential_iqr_outlier_rows": 0,
+        }
+
+    q1 = float(finite.quantile(0.25, interpolation="linear"))
+    q3 = float(finite.quantile(0.75, interpolation="linear"))
+    iqr = q3 - q1
+    lower = q1 - 1.5 * iqr
+    upper = q3 + 1.5 * iqr
+    return {
+        "finite_rows": finite.len(),
+        "minimum": float(finite.min()),
+        "p01": float(finite.quantile(0.01, interpolation="linear")),
+        "median": float(finite.median()),
+        "p99": float(finite.quantile(0.99, interpolation="linear")),
+        "maximum": float(finite.max()),
+        "iqr_fence_lower": lower,
+        "iqr_fence_upper": upper,
+        "potential_iqr_outlier_rows": int(
+            ((finite < lower) | (finite > upper)).sum()
+        ),
+    }
+
+
+def build_financial_value_checks(fin_raw: pl.DataFrame) -> dict:
+    nonfinite_counts = {}
+    parse_failure_counts = {}
+    for field in CORE_FIELDS:
+        if field not in fin_raw.columns:
+            nonfinite_counts[field] = None
+            parse_failure_counts[field] = None
+            continue
+        raw_values = fin_raw[field]
+        numeric = raw_values.cast(pl.Float64, strict=False)
+        nonfinite_counts[field] = int(
+            (numeric.is_not_null() & ~numeric.is_finite()).fill_null(False).sum()
+        )
+        parse_failure_counts[field] = int(
+            (raw_values.is_not_null() & numeric.is_null()).sum()
+        )
+
+    def count_relation(left_name: str, right_name: str, relation: str) -> int | None:
+        if left_name not in fin_raw.columns or right_name not in fin_raw.columns:
+            return None
+        left = pl.col(left_name).cast(pl.Float64, strict=False)
+        right = pl.col(right_name).cast(pl.Float64, strict=False)
+        valid = left.is_finite() & right.is_finite()
+        if relation == "greater_than":
+            condition = left > right
+        elif relation == "less_than":
+            condition = left < right
+        else:
+            raise ValueError(f"Unsupported numeric relation: {relation}")
+        return int(fin_raw.select((valid & condition).fill_null(False).sum()).item())
+
+    def count_negative(field: str) -> int | None:
+        if field not in fin_raw.columns:
+            return None
+        values = pl.col(field).cast(pl.Float64, strict=False)
+        return int(
+            fin_raw.select((values.is_finite() & (values < 0)).fill_null(False).sum()).item()
+        )
+
+    return {
+        "nonfinite_counts_by_field": nonfinite_counts,
+        "nonnumeric_nonnull_counts_by_field": parse_failure_counts,
+        "consistency_checks": {
+            "equity_exceeds_assets_rows": count_relation("EQ", "ASSET", "greater_than"),
+            "deposits_exceed_assets_rows": count_relation("DEP", "ASSET", "greater_than"),
+            "negative_deposit_rows": count_negative("DEP"),
+        },
+        "consistency_check_notes": {
+            "equity_exceeds_assets_rows": (
+                "Accounting review flag; not automatically corrected or dropped."
+            ),
+            "deposits_exceed_assets_rows": (
+                "Review warning; this can occur when a bank has negative equity."
+            ),
+            "negative_deposit_rows": (
+                "Review warning; investigate source values before treating as invalid."
+            ),
+        },
+    }
 
 
 def build_quality_report(fin_raw: pl.DataFrame, fin: pl.DataFrame,
@@ -94,6 +227,8 @@ def build_quality_report(fin_raw: pl.DataFrame, fin: pl.DataFrame,
     )
 
     era_rows = []
+    era_distribution_rows = []
+    previous_positive_medians = {field: None for field in CORE_FIELDS}
     for era, start, end in (
         ("1984-1993", "1984-01-01", "1993-12-31"),
         ("1994-2007", "1994-01-01", "2007-12-31"),
@@ -110,12 +245,34 @@ def build_quality_report(fin_raw: pl.DataFrame, fin: pl.DataFrame,
             )
         )
         nulls = {}
+        field_distributions = {}
         for field in CORE_FIELDS:
             if field in era_df.columns and era_df.height:
                 nulls[field] = round(float(era_df[field].null_count()) / era_df.height, 6)
+                distribution = summarize_numeric_values(era_df[field])
             else:
                 nulls[field] = None
+                distribution = summarize_numeric_values(pl.Series(field, [], dtype=pl.Float64))
+            median = distribution["median"]
+            previous_median = previous_positive_medians[field]
+            distribution["positive_median_ratio_vs_previous_era"] = (
+                median / previous_median
+                if median is not None and median > 0
+                and previous_median is not None and previous_median > 0
+                else None
+            )
+            previous_positive_medians[field] = (
+                median if median is not None and median > 0 else None
+            )
+            field_distributions[field] = distribution
         era_rows.append({"era": era, "rows": era_df.height, "null_share": nulls})
+        era_distribution_rows.append({
+            "era": era,
+            "rows": era_df.height,
+            "fields": field_distributions,
+        })
+
+    financial_value_checks = build_financial_value_checks(fin_raw)
 
     fin_certs = fin["CERT"].drop_nulls().unique()
     failures_with_financials = failures_typed.join(
@@ -144,6 +301,18 @@ def build_quality_report(fin_raw: pl.DataFrame, fin: pl.DataFrame,
             "typed_rows": fin.height,
             "core_null_counts": null_fin,
             "core_null_share_by_era": era_rows,
+            "core_value_distributions_by_era": era_distribution_rows,
+            "value_checks": financial_value_checks,
+            "outlier_rule": (
+                "Potential outliers are values outside 1.5 IQR fences within each era. "
+                "They are review flags only and are not removed from the panel."
+            ),
+            "temporal_scale_check_note": (
+                "Era quantiles and positive-median ratios are descriptive screens. "
+                "Changes may reflect inflation, bank composition, data units, or field "
+                "definitions; the latest-vintage extract does not include historical "
+                "dictionary versions needed to verify definition changes."
+            ),
             "invalid_or_null_REPDTE": bad_repdte,
             "duplicate_CERT_REPDTE_rows": duplicate_keys,
             "null_CERT_rows": null_certs,
@@ -305,10 +474,11 @@ def main() -> None:
     panel, report = build_panel(args.raw)
     args.output.mkdir(parents=True, exist_ok=True)
     panel.write_parquet(args.output / "bank_quarter_panel.parquet", compression="zstd")
+    report["panel"]["panel_rows"] = panel.height
     (args.output / "data_quality_report.json").write_text(
         json.dumps(report, indent=2), encoding="utf-8"
     )
-    report["panel"]["panel_rows"] = panel.height
+    write_quality_report_csv(report, args.output / "data_quality_report.csv")
     print(json.dumps(report, indent=2))
 
 

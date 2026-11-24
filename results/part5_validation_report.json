@@ -68,7 +68,8 @@
       "Brier score and log loss for probability quality",
       "precision, recall, specificity, and bank-level failure recall at the cost-selected threshold",
       "A bank-clustered bootstrap confidence interval for test average precision",
-      "A validation-selected top-1% capacity threshold as an operational alternative"
+      "A validation-selected top-1% capacity threshold as an operational alternative",
+      "Test average precision and threshold metrics by era, using the unchanged validation-selected threshold"
     ]
   },
   "models": {
@@ -135,6 +136,72 @@
           "total_estimated_cost": 107057109.74149999
         }
       },
+      "test_by_era": [
+        {
+          "era": "2008-2014",
+          "rows": 212232,
+          "failures": 2048,
+          "prevalence": 0.009649817181197935,
+          "roc_auc": 0.5,
+          "average_precision": 0.009649817181197935,
+          "brier_score": 0.009564021735815819,
+          "log_loss": 0.054859537865504425,
+          "threshold": 0.012866836123773711,
+          "confusion_matrix": {
+            "tn": 210184,
+            "fp": 0,
+            "fn": 2048,
+            "tp": 0
+          },
+          "precision": 0.0,
+          "recall": 0.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 0.5,
+          "alert_rate": 0.0,
+          "failure_banks": 525,
+          "detected_failure_banks": 0,
+          "failure_bank_recall": 0.0,
+          "estimated_cost": {
+            "false_alarm_rows": 0,
+            "false_alarm_cost": 0.0,
+            "missed_failure_banks": 525,
+            "missed_failure_cost": 70667863.49876,
+            "total_estimated_cost": 70667863.49876
+          }
+        },
+        {
+          "era": "2015-2025",
+          "rows": 222432,
+          "failures": 129,
+          "prevalence": 0.0005799525248165731,
+          "roc_auc": 0.5,
+          "average_precision": 0.0005799525248165731,
+          "brier_score": 0.0006201123893827976,
+          "log_loss": 0.009846118784903513,
+          "threshold": 0.012866836123773711,
+          "confusion_matrix": {
+            "tn": 222303,
+            "fp": 0,
+            "fn": 129,
+            "tp": 0
+          },
+          "precision": 0.0,
+          "recall": 0.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 0.5,
+          "alert_rate": 0.0,
+          "failure_banks": 36,
+          "detected_failure_banks": 0,
+          "failure_bank_recall": 0.0,
+          "estimated_cost": {
+            "false_alarm_rows": 0,
+            "false_alarm_cost": 0.0,
+            "missed_failure_banks": 36,
+            "missed_failure_cost": 36439858.219739996,
+            "total_estimated_cost": 36439858.219739996
+          }
+        }
+      ],
       "threshold_selection": {
         "false_alarm_rows": 431293,
         "false_alarm_cost": 41139450.99039821,
@@ -246,6 +313,9 @@
         }
       },
       "final_model_coefficients": null,
+      "model_family": "DummyClassifier",
+      "model_parameters": null,
+      "training_only_preprocessing": [],
       "final_refit": "Fit on 1984Q1\u20132006Q4 after validation threshold selection; 2007 is excluded as the gap."
     },
     "npa_logistic_baseline": {
@@ -311,6 +381,72 @@
           "total_estimated_cost": 41296368.37487779
         }
       },
+      "test_by_era": [
+        {
+          "era": "2008-2014",
+          "rows": 212232,
+          "failures": 2048,
+          "prevalence": 0.009649817181197935,
+          "roc_auc": 0.9208603175335361,
+          "average_precision": 0.17388354161156003,
+          "brier_score": 0.008508374781085569,
+          "log_loss": 0.03754795951957325,
+          "threshold": 0.006782017784247445,
+          "confusion_matrix": {
+            "tn": 161592,
+            "fp": 48592,
+            "fn": 183,
+            "tp": 1865
+          },
+          "precision": 0.03696216580454645,
+          "recall": 0.91064453125,
+          "specificity": 0.7688120884558292,
+          "balanced_accuracy": 0.8397283098529146,
+          "alert_rate": 0.2377445437068868,
+          "failure_banks": 525,
+          "detected_failure_banks": 501,
+          "failure_bank_recall": 0.9542857142857143,
+          "estimated_cost": {
+            "false_alarm_rows": 48592,
+            "false_alarm_cost": 4635011.935100801,
+            "missed_failure_banks": 24,
+            "missed_failure_cost": 482291.40361999994,
+            "total_estimated_cost": 5117303.338720801
+          }
+        },
+        {
+          "era": "2015-2025",
+          "rows": 222432,
+          "failures": 129,
+          "prevalence": 0.0005799525248165731,
+          "roc_auc": 0.8048019835487474,
+          "average_precision": 0.038427239456129095,
+          "brier_score": 0.0006945436099556016,
+          "log_loss": 0.006535696569725588,
+          "threshold": 0.006782017784247445,
+          "confusion_matrix": {
+            "tn": 211848,
+            "fp": 10455,
+            "fn": 43,
+            "tp": 86
+          },
+          "precision": 0.008158618726876008,
+          "recall": 0.6666666666666666,
+          "specificity": 0.9529695955520169,
+          "balanced_accuracy": 0.8098181311093418,
+          "alert_rate": 0.047389764062724785,
+          "failure_banks": 36,
+          "detected_failure_banks": 26,
+          "failure_bank_recall": 0.7222222222222222,
+          "estimated_cost": {
+            "false_alarm_rows": 10455,
+            "false_alarm_cost": 997263.9484170002,
+            "missed_failure_banks": 10,
+            "missed_failure_cost": 35181801.08773999,
+            "total_estimated_cost": 36179065.03615699
+          }
+        }
+      ],
       "threshold_selection": {
         "false_alarm_rows": 190574,
         "false_alarm_cost": 18178152.052187607,
@@ -422,6 +558,13 @@
         }
       },
       "final_model_coefficients": null,
+      "model_family": "LogisticRegression",
+      "model_parameters": null,
+      "training_only_preprocessing": [
+        "0.5th/99.5th percentile clipping",
+        "median imputation",
+        "standardization"
+      ],
       "final_refit": "Fit on 1984Q1\u20132006Q4 after validation threshold selection; 2007 is excluded as the gap."
     },
     "camels_logistic": {
@@ -495,6 +638,72 @@
           "average_precision_ci_upper": 0.5086428168854499
         }
       },
+      "test_by_era": [
+        {
+          "era": "2008-2014",
+          "rows": 212232,
+          "failures": 2048,
+          "prevalence": 0.009649817181197935,
+          "roc_auc": 0.9705784179538822,
+          "average_precision": 0.49489127219424367,
+          "brier_score": 0.007178441013978453,
+          "log_loss": 0.028648152660547845,
+          "threshold": 0.016249624627349017,
+          "confusion_matrix": {
+            "tn": 205154,
+            "fp": 5030,
+            "fn": 391,
+            "tp": 1657
+          },
+          "precision": 0.2477942276058023,
+          "recall": 0.80908203125,
+          "specificity": 0.9760685875233129,
+          "balanced_accuracy": 0.8925753093866564,
+          "alert_rate": 0.031507972407554,
+          "failure_banks": 525,
+          "detected_failure_banks": 490,
+          "failure_bank_recall": 0.9333333333333333,
+          "estimated_cost": {
+            "false_alarm_rows": 5030,
+            "false_alarm_cost": 479793.17652200017,
+            "missed_failure_banks": 35,
+            "missed_failure_cost": 2180401.06462,
+            "total_estimated_cost": 2660194.241142
+          }
+        },
+        {
+          "era": "2015-2025",
+          "rows": 222432,
+          "failures": 129,
+          "prevalence": 0.0005799525248165731,
+          "roc_auc": 0.9305347506181503,
+          "average_precision": 0.21502322444007388,
+          "brier_score": 0.0005129163616340096,
+          "log_loss": 0.003059991698880533,
+          "threshold": 0.016249624627349017,
+          "confusion_matrix": {
+            "tn": 221603,
+            "fp": 700,
+            "fn": 49,
+            "tp": 80
+          },
+          "precision": 0.10256410256410256,
+          "recall": 0.6201550387596899,
+          "specificity": 0.9968511446089346,
+          "balanced_accuracy": 0.8085030916843123,
+          "alert_rate": 0.003506689684937419,
+          "failure_banks": 36,
+          "detected_failure_banks": 25,
+          "failure_bank_recall": 0.6944444444444444,
+          "estimated_cost": {
+            "false_alarm_rows": 700,
+            "false_alarm_cost": 66770.42218000002,
+            "missed_failure_banks": 11,
+            "missed_failure_cost": 35182795.75873999,
+            "total_estimated_cost": 35249566.18091999
+          }
+        }
+      ],
       "threshold_selection": {
         "false_alarm_rows": 18777,
         "false_alarm_cost": 1791068.8818198005,
@@ -622,6 +831,269 @@
         "delta4_equity_ratio_lag1q": -0.09595187234914071,
         "management_expense_ratio_lag1q": -0.10706088815802267
       },
+      "model_family": "LogisticRegression",
+      "model_parameters": null,
+      "training_only_preprocessing": [
+        "0.5th/99.5th percentile clipping",
+        "median imputation",
+        "standardization"
+      ],
+      "final_refit": "Fit on 1984Q1\u20132006Q4 after validation threshold selection; 2007 is excluded as the gap."
+    },
+    "camels_hist_gradient_boosting": {
+      "validation": {
+        "rows": 702604,
+        "failures": 3998,
+        "prevalence": 0.005690260801247929,
+        "roc_auc": 0.9795239652746216,
+        "average_precision": 0.30507729365829483,
+        "brier_score": 0.004709473990565704,
+        "log_loss": 0.017861336663603573,
+        "threshold": 0.021885952219121027,
+        "confusion_matrix": {
+          "tn": 683267,
+          "fp": 15339,
+          "fn": 647,
+          "tp": 3351
+        },
+        "precision": 0.17929373996789727,
+        "recall": 0.8381690845422711,
+        "specificity": 0.9780434178922025,
+        "balanced_accuracy": 0.9081062512172369,
+        "alert_rate": 0.026601044115888893,
+        "failure_banks": 1200,
+        "detected_failure_banks": 1145,
+        "failure_bank_recall": 0.9541666666666667,
+        "estimated_cost": {
+          "false_alarm_rows": 15339,
+          "false_alarm_cost": 1463130.7225986007,
+          "missed_failure_banks": 55,
+          "missed_failure_cost": 1825091.5268018984,
+          "total_estimated_cost": 3288222.2494004993
+        }
+      },
+      "test": {
+        "rows": 434664,
+        "failures": 2177,
+        "prevalence": 0.0050084663096092615,
+        "roc_auc": 0.9746741087214477,
+        "average_precision": 0.4501932334537034,
+        "brier_score": 0.00357733300757954,
+        "log_loss": 0.01487722187625685,
+        "threshold": 0.021885952219121027,
+        "confusion_matrix": {
+          "tn": 426779,
+          "fp": 5708,
+          "fn": 467,
+          "tp": 1710
+        },
+        "precision": 0.23052035589107575,
+        "recall": 0.7854846118511714,
+        "specificity": 0.9868019154332962,
+        "balanced_accuracy": 0.8861432636422337,
+        "alert_rate": 0.01706605561997313,
+        "failure_banks": 557,
+        "detected_failure_banks": 513,
+        "failure_bank_recall": 0.9210053859964094,
+        "estimated_cost": {
+          "false_alarm_rows": 5708,
+          "false_alarm_cost": 544465.0997192002,
+          "missed_failure_banks": 44,
+          "missed_failure_cost": 37919920.05709999,
+          "total_estimated_cost": 38464385.15681919
+        }
+      },
+      "test_by_era": [
+        {
+          "era": "2008-2014",
+          "rows": 212232,
+          "failures": 2048,
+          "prevalence": 0.009649817181197935,
+          "roc_auc": 0.96932498796999,
+          "average_precision": 0.47109461222290777,
+          "brier_score": 0.006787733919252591,
+          "log_loss": 0.027385108781294663,
+          "threshold": 0.021885952219121027,
+          "confusion_matrix": {
+            "tn": 205250,
+            "fp": 4934,
+            "fn": 417,
+            "tp": 1631
+          },
+          "precision": 0.24843869002284844,
+          "recall": 0.79638671875,
+          "specificity": 0.9765253301868839,
+          "balanced_accuracy": 0.886456024468442,
+          "alert_rate": 0.030933129782502167,
+          "failure_banks": 525,
+          "detected_failure_banks": 490,
+          "failure_bank_recall": 0.9333333333333333,
+          "estimated_cost": {
+            "false_alarm_rows": 4934,
+            "false_alarm_cost": 470636.0900516002,
+            "missed_failure_banks": 35,
+            "missed_failure_cost": 3436218.11836,
+            "total_estimated_cost": 3906854.2084116004
+          }
+        },
+        {
+          "era": "2015-2025",
+          "rows": 222432,
+          "failures": 129,
+          "prevalence": 0.0005799525248165731,
+          "roc_auc": 0.9269335828984304,
+          "average_precision": 0.2119175503470641,
+          "brier_score": 0.0005141505235565809,
+          "log_loss": 0.002942905529553213,
+          "threshold": 0.021885952219121027,
+          "confusion_matrix": {
+            "tn": 221529,
+            "fp": 774,
+            "fn": 50,
+            "tp": 79
+          },
+          "precision": 0.09261430246189918,
+          "recall": 0.6124031007751938,
+          "specificity": 0.9965182656104506,
+          "balanced_accuracy": 0.8044606831928223,
+          "alert_rate": 0.003834879873399511,
+          "failure_banks": 36,
+          "detected_failure_banks": 26,
+          "failure_bank_recall": 0.7222222222222222,
+          "estimated_cost": {
+            "false_alarm_rows": 774,
+            "false_alarm_cost": 73829.00966760002,
+            "missed_failure_banks": 10,
+            "missed_failure_cost": 34484696.60973999,
+            "total_estimated_cost": 34558525.61940759
+          }
+        }
+      ],
+      "threshold_selection": {
+        "false_alarm_rows": 15339,
+        "false_alarm_cost": 1463130.7225986007,
+        "missed_failure_banks": 55,
+        "missed_failure_cost": 1825091.5268018984,
+        "total_estimated_cost": 3288222.2494004993,
+        "validation_threshold": 0.021885952219121027,
+        "validation_cost_candidates": 649118,
+        "false_alarm_cost_multiplier": 1.0
+      },
+      "threshold_cost_sensitivity": [
+        {
+          "false_alarm_fraction_of_median_failure_cost": 0.001,
+          "false_alarm_cost_multiplier": 0.1,
+          "threshold": 0.0057515357653207455,
+          "validation_total_estimated_cost": 1132708.8435302,
+          "validation_false_alarm_rows": 41230,
+          "validation_missed_failure_banks": 21
+        },
+        {
+          "false_alarm_fraction_of_median_failure_cost": 0.01,
+          "false_alarm_cost_multiplier": 1.0,
+          "threshold": 0.021885952219121027,
+          "validation_total_estimated_cost": 3288222.2494004993,
+          "validation_false_alarm_rows": 15339,
+          "validation_missed_failure_banks": 55
+        },
+        {
+          "false_alarm_fraction_of_median_failure_cost": 0.1,
+          "false_alarm_cost_multiplier": 10.0,
+          "threshold": 0.043872320832221944,
+          "validation_total_estimated_cost": 11594916.48882621,
+          "validation_false_alarm_rows": 8914,
+          "validation_missed_failure_banks": 110
+        },
+        {
+          "false_alarm_fraction_of_median_failure_cost": 1.0,
+          "false_alarm_cost_multiplier": 100.0,
+          "threshold": 0.2365406133793185,
+          "validation_total_estimated_cost": 36843909.66689296,
+          "validation_false_alarm_rows": 2124,
+          "validation_missed_failure_banks": 500
+        }
+      ],
+      "capacity_operating_point": {
+        "alert_fraction": 0.01,
+        "validation_threshold": 0.09828037649455725,
+        "validation": {
+          "rows": 702604,
+          "failures": 3998,
+          "prevalence": 0.005690260801247929,
+          "roc_auc": 0.9795239652746216,
+          "average_precision": 0.30507729365829483,
+          "brier_score": 0.004709473990565704,
+          "log_loss": 0.017861336663603573,
+          "threshold": 0.09828037649455725,
+          "confusion_matrix": {
+            "tn": 693879,
+            "fp": 4727,
+            "fn": 1698,
+            "tp": 2300
+          },
+          "precision": 0.3273089511882738,
+          "recall": 0.575287643821911,
+          "specificity": 0.993233668190654,
+          "balanced_accuracy": 0.7842606560062825,
+          "alert_rate": 0.010001366345765181,
+          "failure_banks": 1200,
+          "detected_failure_banks": 981,
+          "failure_bank_recall": 0.8175,
+          "estimated_cost": {
+            "false_alarm_rows": 4727,
+            "false_alarm_cost": 450891.1223498001,
+            "missed_failure_banks": 219,
+            "missed_failure_cost": 7846881.682147166,
+            "total_estimated_cost": 8297772.804496966
+          }
+        },
+        "test": {
+          "rows": 434664,
+          "failures": 2177,
+          "prevalence": 0.0050084663096092615,
+          "roc_auc": 0.9746741087214477,
+          "average_precision": 0.4501932334537034,
+          "brier_score": 0.00357733300757954,
+          "log_loss": 0.01487722187625685,
+          "threshold": 0.09828037649455725,
+          "confusion_matrix": {
+            "tn": 430669,
+            "fp": 1818,
+            "fn": 929,
+            "tp": 1248
+          },
+          "precision": 0.4070450097847358,
+          "recall": 0.5732659623334865,
+          "specificity": 0.9957964054410884,
+          "balanced_accuracy": 0.7845311838872875,
+          "alert_rate": 0.00705372425597703,
+          "failure_banks": 557,
+          "detected_failure_banks": 474,
+          "failure_bank_recall": 0.8509874326750448,
+          "estimated_cost": {
+            "false_alarm_rows": 1818,
+            "false_alarm_cost": 173412.3250332001,
+            "missed_failure_banks": 83,
+            "missed_failure_cost": 58772269.46058,
+            "total_estimated_cost": 58945681.7856132
+          }
+        }
+      },
+      "final_model_coefficients": null,
+      "model_family": "HistGradientBoostingClassifier",
+      "model_parameters": {
+        "max_iter": 100,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 20,
+        "l2_regularization": 1.0,
+        "early_stopping": false,
+        "random_state": 42
+      },
+      "training_only_preprocessing": [
+        "0.5th/99.5th percentile clipping",
+        "median imputation"
+      ],
       "final_refit": "Fit on 1984Q1\u20132006Q4 after validation threshold selection; 2007 is excluded as the gap."
     },
     "spark_mllib_logistic": {
@@ -821,6 +1293,8 @@
       "LogisticRegression"
     ],
     "threshold_source": "fixed validation window only",
-    "false_alarm_fraction_used": 0.01
-  }
+    "false_alarm_fraction_used": 0.01,
+    "result_provenance_note": "Retained from the prior saved Part 5 run: this environment has no Java/JAVA_HOME, so Spark could not be rerun. Its model and scoring code were unchanged."
+  },
+  "test_era_output_note": "part5_test_per_era_metrics.csv contains the freshly scored scikit-learn models. Spark per-era values are not included because the prior run saved aggregate metrics but not row-level scores, and Java is unavailable for a fresh score run."
 }

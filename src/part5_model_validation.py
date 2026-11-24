@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 import polars as pl
 from sklearn.dummy import DummyClassifier
+from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
@@ -390,6 +391,30 @@ def bank_bootstrap_average_precision(
     }
 
 
+def per_era_test_metrics(
+    rows: pd.DataFrame,
+    scores: np.ndarray,
+    report_dates: list[date],
+    threshold: float,
+    loss_rate: float,
+) -> list[dict]:
+    eras = (
+        ("2008-2014", 2008, 2014),
+        ("2015-2025", 2015, 2025),
+    )
+    results = []
+    years = np.asarray([report_date.year for report_date in report_dates])
+    for era, start_year, end_year in eras:
+        mask = (years >= start_year) & (years <= end_year)
+        if not mask.any():
+            continue
+        era_rows = rows.loc[mask].reset_index(drop=True)
+        era_scores = scores[mask]
+        metrics = evaluate_predictions(era_rows, era_scores, threshold, loss_rate)
+        results.append({"era": era, **metrics})
+    return results
+
+
 def fit_sklearn_models(
     fit: pl.DataFrame,
     validation: pl.DataFrame,
@@ -407,7 +432,11 @@ def fit_sklearn_models(
     }
     oof_scores = {
         name: np.full(validation.height, np.nan, dtype=np.float64)
-        for name in ("prevalence_baseline", *models)
+        for name in (
+            "prevalence_baseline",
+            *models,
+            "camels_hist_gradient_boosting",
+        )
     }
 
     def new_pipeline() -> Pipeline:
@@ -416,6 +445,24 @@ def fit_sklearn_models(
             ("imputer", SimpleImputer(strategy="median")),
             ("scaler", StandardScaler()),
             ("model", LogisticRegression(max_iter=500, solver="lbfgs", class_weight=None)),
+        ])
+
+    def new_tree_pipeline() -> Pipeline:
+        return Pipeline([
+            ("outlier_clip", TrainingQuantileClipper()),
+            ("imputer", SimpleImputer(strategy="median")),
+            (
+                "model",
+                HistGradientBoostingClassifier(
+                    max_iter=100,
+                    learning_rate=0.1,
+                    max_leaf_nodes=15,
+                    min_samples_leaf=20,
+                    l2_regularization=1.0,
+                    early_stopping=False,
+                    random_state=42,
+                ),
+            ),
         ])
 
     for training_end, validation_start, validation_end in VALIDATION_FOLDS:
@@ -442,6 +489,16 @@ def fit_sklearn_models(
             oof_scores[name][fold_mask] = pipeline.predict_proba(
                 fold_validation.select(columns).to_pandas()
             )[:, 1]
+        tree_pipeline = new_tree_pipeline()
+        tree_pipeline.fit(
+            fold_fit.select(FEATURE_COLUMNS).to_pandas(),
+            fold_fit["target"].to_numpy(),
+        )
+        oof_scores["camels_hist_gradient_boosting"][fold_mask] = (
+            tree_pipeline.predict_proba(
+                fold_validation.select(FEATURE_COLUMNS).to_pandas()
+            )[:, 1]
+        )
 
     if not scored_validation.any():
         raise ValueError("Expanding validation folds produced no out-of-fold scores")
@@ -464,6 +521,20 @@ def fit_sklearn_models(
             else None
         )
 
+    final_tree_pipeline = new_tree_pipeline()
+    final_tree_pipeline.fit(
+        final_fit.select(FEATURE_COLUMNS).to_pandas(),
+        y_final,
+    )
+    tree_test_scores = final_tree_pipeline.predict_proba(
+        test.select(FEATURE_COLUMNS).to_pandas()
+    )[:, 1]
+    results["camels_hist_gradient_boosting"] = (
+        oof_scores["camels_hist_gradient_boosting"][scored_validation],
+        tree_test_scores,
+    )
+    coefficients["camels_hist_gradient_boosting"] = None
+
     final_prior = DummyClassifier(strategy="prior")
     final_prior.fit(np.zeros((final_fit.height, 1)), y_final)
     results["prevalence_baseline"] = (
@@ -473,7 +544,12 @@ def fit_sklearn_models(
     coefficients["prevalence_baseline"] = None
     results = {
         name: results[name]
-        for name in ("prevalence_baseline", "npa_logistic_baseline", "camels_logistic")
+        for name in (
+            "prevalence_baseline",
+            "npa_logistic_baseline",
+            "camels_logistic",
+            "camels_hist_gradient_boosting",
+        )
     }
     return results, coefficients, scored_validation
 
@@ -680,6 +756,8 @@ def main() -> None:
     split_report["threshold_validation_oof_rows"] = int(validation_score_mask.sum())
     model_results = {}
     sensitivity_rows = []
+    era_metric_rows = []
+    test_report_dates = test["REPDTE"].to_list()
     for name, (validation_scores, test_scores) in score_sets.items():
         threshold, validation_cost = choose_cost_threshold(
             validation_cost_rows,
@@ -695,6 +773,40 @@ def main() -> None:
             test_metrics["bank_bootstrap_average_precision"] = (
                 bank_bootstrap_average_precision(test_cost_rows, test_scores)
             )
+        test_era_metrics = per_era_test_metrics(
+            test_cost_rows,
+            test_scores,
+            test_report_dates,
+            threshold,
+            false_alarm_fraction,
+        )
+        if name == "camels_hist_gradient_boosting":
+            model_family = "HistGradientBoostingClassifier"
+            model_parameters = {
+                "max_iter": 100,
+                "learning_rate": 0.1,
+                "max_leaf_nodes": 15,
+                "min_samples_leaf": 20,
+                "l2_regularization": 1.0,
+                "early_stopping": False,
+                "random_state": 42,
+            }
+            training_only_preprocessing = [
+                "0.5th/99.5th percentile clipping",
+                "median imputation",
+            ]
+        elif name == "prevalence_baseline":
+            model_family = "DummyClassifier"
+            model_parameters = None
+            training_only_preprocessing = []
+        else:
+            model_family = "LogisticRegression"
+            model_parameters = None
+            training_only_preprocessing = [
+                "0.5th/99.5th percentile clipping",
+                "median imputation",
+                "standardization",
+            ]
         model_results[name] = {
             "validation": evaluate_predictions(
                 validation_cost_rows,
@@ -703,6 +815,7 @@ def main() -> None:
                 false_alarm_fraction,
             ),
             "test": test_metrics,
+            "test_by_era": test_era_metrics,
             "threshold_selection": validation_cost,
             "threshold_cost_sensitivity": model_cost_sensitivity(
                 validation_cost_rows,
@@ -726,8 +839,28 @@ def main() -> None:
                 ),
             },
             "final_model_coefficients": coefficients[name],
+            "model_family": model_family,
+            "model_parameters": model_parameters,
+            "training_only_preprocessing": training_only_preprocessing,
             "final_refit": "Fit on 1984Q1–2006Q4 after validation threshold selection; 2007 is excluded as the gap.",
         }
+        for era_metrics in test_era_metrics:
+            era_metric_rows.append({
+                "model": name,
+                "era": era_metrics["era"],
+                "rows": era_metrics["rows"],
+                "failures": era_metrics["failures"],
+                "prevalence": era_metrics["prevalence"],
+                "average_precision": era_metrics["average_precision"],
+                "roc_auc": era_metrics["roc_auc"],
+                "brier_score": era_metrics["brier_score"],
+                "log_loss": era_metrics["log_loss"],
+                "validation_selected_threshold": threshold,
+                "precision": era_metrics["precision"],
+                "recall": era_metrics["recall"],
+                "failure_bank_recall": era_metrics["failure_bank_recall"],
+                "alert_rate": era_metrics["alert_rate"],
+            })
         for row in model_results[name]["threshold_cost_sensitivity"]:
             sensitivity_rows.append({"model": name, **row})
 
@@ -762,6 +895,13 @@ def main() -> None:
             spark_threshold,
             false_alarm_fraction,
         )
+        spark_test_era_metrics = per_era_test_metrics(
+            spark_test_rows,
+            spark_test_scores,
+            test_report_dates,
+            spark_threshold,
+            false_alarm_fraction,
+        )
         spark_top_one_percent = capacity_threshold(spark_validation_scores, 0.01)
         model_results["spark_mllib_logistic"] = {
             "validation": evaluate_predictions(
@@ -771,6 +911,7 @@ def main() -> None:
                 false_alarm_fraction,
             ),
             "test": spark_test_metrics,
+            "test_by_era": spark_test_era_metrics,
             "threshold_selection": spark_validation_cost,
             "threshold_cost_sensitivity": model_cost_sensitivity(
                 spark_validation_rows,
@@ -794,12 +935,36 @@ def main() -> None:
                 ),
             },
             "final_model_coefficients": None,
+            "model_family": "Spark MLlib LogisticRegression",
+            "model_parameters": None,
+            "training_only_preprocessing": [
+                "0.5th/99.5th percentile clipping bounds",
+                "median imputation",
+                "standardization",
+            ],
             "final_refit": (
                 "Validation threshold is selected from the initial 1984Q1–1987Q4 fit; "
                 "the Spark pipeline is then refit on all eligible 1984Q1–2006Q4 "
                 "development rows before test scoring."
             ),
         }
+        for era_metrics in spark_test_era_metrics:
+            era_metric_rows.append({
+                "model": "spark_mllib_logistic",
+                "era": era_metrics["era"],
+                "rows": era_metrics["rows"],
+                "failures": era_metrics["failures"],
+                "prevalence": era_metrics["prevalence"],
+                "average_precision": era_metrics["average_precision"],
+                "roc_auc": era_metrics["roc_auc"],
+                "brier_score": era_metrics["brier_score"],
+                "log_loss": era_metrics["log_loss"],
+                "validation_selected_threshold": spark_threshold,
+                "precision": era_metrics["precision"],
+                "recall": era_metrics["recall"],
+                "failure_bank_recall": era_metrics["failure_bank_recall"],
+                "alert_rate": era_metrics["alert_rate"],
+            })
         for row in model_results["spark_mllib_logistic"]["threshold_cost_sensitivity"]:
             sensitivity_rows.append({"model": "spark_mllib_logistic", **row})
 
@@ -815,6 +980,7 @@ def main() -> None:
                 "precision, recall, specificity, and bank-level failure recall at the cost-selected threshold",
                 "A bank-clustered bootstrap confidence interval for test average precision",
                 "A validation-selected top-1% capacity threshold as an operational alternative",
+                "Test average precision and threshold metrics by era, using the unchanged validation-selected threshold",
             ],
         },
         "models": model_results,
@@ -850,6 +1016,9 @@ def main() -> None:
     )
     pd.DataFrame(sensitivity_rows).to_csv(
         args.results / "part5_threshold_sensitivity.csv", index=False
+    )
+    pd.DataFrame(era_metric_rows).to_csv(
+        args.results / "part5_test_per_era_metrics.csv", index=False
     )
     coefficient_rows = [
         {
