@@ -21,7 +21,9 @@ RAW = ROOT / "data_raw" / "fdic"
 OUTPUT = ROOT / "data" / "processed" / "part4"
 RESULTS = ROOT / "results"
 
-TRAIN_END = pd.Timestamp("2006-12-31")
+TRAIN_END = pd.Timestamp("1987-12-31")
+VALIDATION_START = pd.Timestamp("1989-03-31")
+VALIDATION_END = pd.Timestamp("2006-12-31")
 TEST_START = pd.Timestamp("2008-03-31")
 
 FEATURE_NAMES = [
@@ -160,12 +162,28 @@ def build_camels_features(panel: pl.DataFrame, raw: pl.DataFrame) -> pl.DataFram
 
 def make_temporal_splits(features: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame, dict]:
     train = features.filter(pl.col("REPDTE") <= TRAIN_END)
-    test = features.filter(pl.col("REPDTE") >= TEST_START)
+    validation = features.filter(
+        pl.col("REPDTE").is_between(VALIDATION_START, VALIDATION_END)
+    )
+    test = features.filter(
+        (pl.col("REPDTE") >= TEST_START)
+        & (pl.col("REPDTE") <= pl.lit(pd.Timestamp("2025-06-30")))
+    )
     report = {
         "train": {"start": str(train["REPDTE"].min()), "end": str(train["REPDTE"].max()),
                   "rows": train.height, "failures": int(train["target"].sum())},
-        "test": {"start": str(test["REPDTE"].min()), "end": str(test["REPDTE"].max()),
-                 "rows": test.height, "failures": int(test["target"].sum())},
+        "validation": {
+            "start": str(validation["REPDTE"].min()),
+            "end": str(validation["REPDTE"].max()),
+            "rows": validation.height,
+            "failures": int(validation["target"].sum()),
+        },
+        "test": {
+            "start": str(test["REPDTE"].min()),
+            "end": str(test["REPDTE"].max()),
+            "rows": test.height,
+            "failures": int(test["target"].sum()),
+        },
         "gap_quarters": 4,
         "label_window": "Failure 0-12 months after the reporting quarter",
         "feature_horizon": "Lagged model uses only the exact prior quarter; delta4 requires an exact four-quarter comparison",
@@ -175,14 +193,15 @@ def make_temporal_splits(features: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataF
         ),
         "filing_lag_check": (
             "The primary specification uses values from exactly REPDTE-1 quarter; "
-            "same-quarter values are reported as a sensitivity comparison."
+            "same-quarter values are reported as a validation-period sensitivity comparison."
         ),
         "lagged_feature_coverage": {
             "train_rows_with_exact_prior_quarter": int(train["feature_source_date_lag1q"].is_not_null().sum()),
+            "validation_rows_with_exact_prior_quarter": int(validation["feature_source_date_lag1q"].is_not_null().sum()),
             "test_rows_with_exact_prior_quarter": int(test["feature_source_date_lag1q"].is_not_null().sum()),
         },
     }
-    return train, test, report
+    return train, validation, report
 
 
 class TrainingQuantileClipper(BaseEstimator, TransformerMixin):
@@ -207,13 +226,13 @@ class TrainingQuantileClipper(BaseEstimator, TransformerMixin):
 
 def fit_and_evaluate(
     train: pl.DataFrame,
-    test: pl.DataFrame,
+    evaluation: pl.DataFrame,
     feature_names: list[str],
 ) -> tuple[dict, Pipeline]:
     X_train = train.select(feature_names).to_pandas()
     y_train = train["target"].to_numpy()
-    X_test = test.select(feature_names).to_pandas()
-    y_test = test["target"].to_numpy()
+    X_evaluation = evaluation.select(feature_names).to_pandas()
+    y_evaluation = evaluation["target"].to_numpy()
 
     pipe = Pipeline([
         ("outlier_clip", TrainingQuantileClipper()),
@@ -222,16 +241,16 @@ def fit_and_evaluate(
         ("model", LogisticRegression(class_weight="balanced", max_iter=500, solver="lbfgs")),
     ])
     pipe.fit(X_train, y_train)
-    probability = pipe.predict_proba(X_test)[:, 1]
+    probability = pipe.predict_proba(X_evaluation)[:, 1]
     prediction = (probability >= 0.5).astype(np.uint8)
-    tn, fp, fn, tp = confusion_matrix(y_test, prediction, labels=[0, 1]).ravel()
+    tn, fp, fn, tp = confusion_matrix(y_evaluation, prediction, labels=[0, 1]).ravel()
     metrics = {
-        "test_rows": int(len(y_test)),
-        "test_failures": int(y_test.sum()),
-        "roc_auc": float(roc_auc_score(y_test, probability)),
-        "average_precision": float(average_precision_score(y_test, probability)),
-        "brier_score": float(brier_score_loss(y_test, probability)),
-        "log_loss": float(log_loss(y_test, probability)),
+        "validation_rows": int(len(y_evaluation)),
+        "validation_failures": int(y_evaluation.sum()),
+        "roc_auc": float(roc_auc_score(y_evaluation, probability)),
+        "average_precision": float(average_precision_score(y_evaluation, probability)),
+        "brier_score": float(brier_score_loss(y_evaluation, probability)),
+        "log_loss": float(log_loss(y_evaluation, probability)),
         "confusion_matrix": {"tn": int(tn), "fp": int(fp), "fn": int(fn), "tp": int(tp)},
         "coefficients": {},
         "training_preprocessing_fit": {
@@ -312,10 +331,11 @@ def main() -> None:
     features = build_camels_features(panel, read_raw_camels(args.raw))
     args.output.mkdir(parents=True, exist_ok=True)
     features.write_parquet(args.output / "feature_matrix.parquet", compression="zstd")
-    train, test, split_report = make_temporal_splits(features)
-    contemporaneous_metrics, _ = fit_and_evaluate(train, test, FEATURE_NAMES)
+    train, validation, split_report = make_temporal_splits(features)
+    # The filing-lag sensitivity is now evaluated only on validation.
+    contemporaneous_metrics, _ = fit_and_evaluate(train, validation, FEATURE_NAMES)
     lagged_names = [f"{name}_lag1q" for name in FEATURE_NAMES]
-    lagged_metrics, _ = fit_and_evaluate(train, test, lagged_names)
+    lagged_metrics, _ = fit_and_evaluate(train, validation, lagged_names)
     report = {
         "features": split_report,
         "models": {

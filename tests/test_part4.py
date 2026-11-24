@@ -80,9 +80,16 @@ class Part4Test(unittest.TestCase):
             date(2024, 3, 31),
         )
 
-        train, test, report = make_temporal_splits(features)
-        self.assertEqual(train.height, 0)
-        self.assertEqual(test.height, 6)
+        split_features = features.with_columns(pl.Series(
+            "REPDTE",
+            [
+                date(1987, 3, 31), date(1987, 6, 30), date(1989, 3, 31),
+                date(1989, 6, 30), date(2008, 3, 31), date(2008, 6, 30),
+            ],
+        ))
+        train, validation, report = make_temporal_splits(split_features)
+        self.assertEqual(train.height, 2)
+        self.assertEqual(validation.height, 2)
         self.assertEqual(report["gap_quarters"], 4)
         self.assertIn("latest-vintage snapshot", report["revision_control"])
 
@@ -133,6 +140,8 @@ class Part4Test(unittest.TestCase):
             {f"{name}_lag1q" for name in FEATURE_NAMES},
         )
         for model in report["models"].values():
+            self.assertIn("validation_rows", model)
+            self.assertNotIn("test_rows", model)
             self.assertTrue(0.0 <= model["roc_auc"] <= 1.0)
             self.assertTrue(0.0 <= model["average_precision"] <= 1.0)
             self.assertEqual(

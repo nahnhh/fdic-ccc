@@ -179,10 +179,49 @@ The downloaded FDIC files are a latest-vintage snapshot without filing vintage
 or publication timestamps, so historical revisions cannot be controlled or
 ruled out; this limitation is recorded in the report.
 
-Run:
+Run Part 4:
 
 ```powershell
 uv sync
 python src/part4_features.py
 python tests/test_part4.py
 ```
+
+## Part 5
+
+Part 5 fits a prior-prevalence baseline, a one-feature NPA logistic baseline,
+and a 15-feature CAMELS logistic model. Thresholds are selected from
+out-of-fold predictions over four expanding-window validation folds, each
+separated from its training period by a four-quarter gap. The scikit-learn
+models are then refit on all eligible development rows through 2006Q4 before
+the final 2008Q1–2025Q2 test is scored; 2007 is the test gap. Thresholds and
+model choices are fixed before the test is scored.
+
+The label is highly imbalanced, so average precision is primary, with ROC-AUC,
+probability calibration, thresholded precision/recall, and bank-level failure
+recall also reported. Failure costs use observed FDIC `COST`. False alarms
+have no observed cost, so they are modeled as review costs equal to a fraction
+of the development-period median failed-bank `COST`. The base fraction is 1%;
+sensitivity covers 0.1%, 1%, 10%, and 100%. The threshold minimizes
+validation-period total estimated cost. A missed failure is charged once per
+failed bank only if no alert occurs in its positive 12-month window. As an
+independent capacity operating point, the top 1% of validation scores is also
+evaluated. Test average precision is reported with a bank-clustered bootstrap
+interval. Costs are in thousands of USD.
+
+The Spark MLlib LogisticRegression demonstration uses a training-only
+clipping/imputation/scaling pipeline, selects its illustrative threshold on the
+fixed validation window, then refits on the full eligible development period
+before test scoring. It requires Java 17 or newer. Run Part 4 first to create
+the feature matrix, then run:
+
+```powershell
+python src/part5_model_validation.py
+python tests/test_part5.py
+```
+
+The report and threshold sensitivity table are saved to
+`results/part5_validation_report.json` and
+`results/part5_threshold_sensitivity.csv`; the concise model comparison is
+`results/part5_model_metrics.csv`. Final standardized scikit-learn coefficients
+are saved to `results/part5_final_model_coefficients.csv`.

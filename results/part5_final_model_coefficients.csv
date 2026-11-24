@@ -1,0 +1,16 @@
+model,feature,standardized_coefficient
+camels_logistic,equity_to_assets_lag1q,-2.123301105465509
+camels_logistic,tier1_leverage_lag1q,-1.9186340251712657
+camels_logistic,npa_ratio_lag1q,0.2694882767774358
+camels_logistic,net_chargeoff_rate_lag1q,-0.035778652572815324
+camels_logistic,reserve_coverage_lag1q,-0.25568674162242805
+camels_logistic,roa_lag1q,-0.16372270914389214
+camels_logistic,provision_to_assets_lag1q,0.04323751914564977
+camels_logistic,liquid_asset_ratio_lag1q,-0.45302958384474723
+camels_logistic,brokered_dep_ratio_lag1q,0.09758426676683409
+camels_logistic,core_deposit_ratio_lag1q,0.16974179253687952
+camels_logistic,loan_to_assets_lag1q,-0.14268718831619193
+camels_logistic,re_concentration_lag1q,-0.41527911185651867
+camels_logistic,delta4_npa_ratio_lag1q,0.171485727984124
+camels_logistic,delta4_equity_ratio_lag1q,-0.09595187234914071
+camels_logistic,management_expense_ratio_lag1q,-0.10706088815802267
