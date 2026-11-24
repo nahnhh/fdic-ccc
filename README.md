@@ -23,10 +23,14 @@ the later quarter(s) remain in the acquisition archive but are excluded from
 the Part 2 modeling panel. Raw downloads are under `data_raw/fdic/` and are
 intentionally excluded from Git.
 
-Run the downloader from the repository root:
+Requires Python 3.14 or newer. Reproduce Part 1 from the repository root in
+PowerShell, following Appendix A3:
 
 ```powershell
+uv sync --frozen
 python notebooks/fdic_download_starter.py
+python tests/process_storage.py
+python tests/storage_benchmark.py # optional Part 1 benchmark
 ```
 
 ### Typed, partitioned storage
@@ -41,12 +45,6 @@ Losslessness checks compare row counts, API totals, keys, numeric totals, and
 ratio cast error before writing. This produces the columnar, year-partitioned
 layout used for efficient downstream reads.
 
-Build the processed dataset from existing raw downloads:
-
-```powershell
-python tests/process_storage.py
-```
-
 ### Storage benchmark
 
 `tests/storage_benchmark.py` compares CSV and Parquet layouts using four
@@ -60,11 +58,7 @@ the five-column projection and date-filter workloads, so partitioning does not
 automatically improve every query. Zstandard provides the best size in these
 measurements, while the best layout depends on the access pattern.
 
-Run the benchmark (it rebuilds the benchmark files under `data/bench/`):
-
-```powershell
-python tests/storage_benchmark.py
-```
+The optional benchmark command rebuilds benchmark files under `data/bench/`.
 
 ## Part 2
 
@@ -139,7 +133,9 @@ uses the local thread pool; the comparison is an engine demonstration, not a
 hardware-matched cluster speed test.
 The physical plan shows pushed Parquet filters and the expected aggregation
 shuffle; it has no `(CERT, REPDTE)` deduplication shuffle.
-The annotated Polars aggregate plan for reports is printed to
+Running `python src/part3_polars_plan.py` captures Polars'
+`LazyFrame.explain(optimized=True)` output and writes it with annotations for
+the pushed filter, projected columns, and lack of deduplication shuffle to
 `results/part3_polars_aggregate_plan.txt`.
 
 On the current Windows laptop (Intel i5-9300H, 4 physical/8 logical cores,
@@ -225,3 +221,49 @@ The report and threshold sensitivity table are saved to
 `results/part5_threshold_sensitivity.csv`; the concise model comparison is
 `results/part5_model_metrics.csv`. Final standardized scikit-learn coefficients
 are saved to `results/part5_final_model_coefficients.csv`.
+
+## Part 6: Conclusion - In the docs
+
+## Reproducibility
+
+Use the locked dependencies and run commands from the repository root in
+PowerShell. The project requires Python 3.14 or newer; the Spark demonstrations
+in Parts 3 and 5 also require Java 17 or newer.
+`requirements.txt` is an exact-version, hash-pinned export of `uv.lock` for
+pip-based environments; install it with
+`python -m pip install --require-hashes -r requirements.txt`. With uv, use
+`uv sync --frozen` as shown below.
+
+```powershell
+uv sync --frozen
+
+# Acquire source data if the raw FDIC files are not already present.
+python notebooks/fdic_download_starter.py
+python tests/process_storage.py
+
+# Rebuild the analytical outputs in dependency order.
+python src/part2_data_quality_panel.py
+python src/part3_scalable_processing.py --repeats 3
+python src/part3_polars_plan.py
+python src/part4_features.py
+python src/part5_model_validation.py
+
+# Run the corresponding checks.
+python tests/test_part2.py
+python tests/test_part3.py
+python tests/test_part4.py
+python tests/test_part5.py
+```
+
+Set `JAVA_HOME` to the installed JDK before running the Spark commands if Java
+is not already on `PATH`. Part 1's storage benchmark is optional:
+`python tests/storage_benchmark.py`.
+
+The raw downloads and processed datasets are generated locally and are not
+stored in Git. Re-downloading the FDIC API later may produce different data:
+the API is live, and the available financial files are latest-vintage
+snapshots without historical filing vintages. Consequently, model outputs
+can change if source data change. Fixed date splits, validation folds, and
+bootstrap seed (`42`) are recorded in the source and result reports. Benchmark
+timings also depend on local hardware and should be treated as measurements,
+not expected constants.
